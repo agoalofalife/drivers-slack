@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace FondBot\Drivers\Telegram;
 
 use GuzzleHttp\Client;
-use FondBot\Helpers\Arr;
 use FondBot\Templates\Location;
 use FondBot\Templates\Attachment;
 use FondBot\Drivers\ReceivedMessage;
+
 
 class SlackReceivedMessage implements ReceivedMessage
 {
@@ -18,8 +18,8 @@ class SlackReceivedMessage implements ReceivedMessage
 
     public function __construct(Client $guzzle, string $token, array $payload)
     {
-        $this->guzzle = $guzzle;
-        $this->token = $token;
+        $this->guzzle  = $guzzle;
+        $this->token   = $token;
         $this->payload = $payload;
     }
 
@@ -30,11 +30,7 @@ class SlackReceivedMessage implements ReceivedMessage
      */
     public function getText(): ?string
     {
-        if (Arr::has($this->payload, ['callback_query'])) {
-            return Arr::get($this->payload, 'callback_query.message.text');
-        }
-
-        return $this->payload['message']['text'] ?? null;
+        return $this->payload['text'] ?? null;
     }
 
     /**
@@ -44,33 +40,7 @@ class SlackReceivedMessage implements ReceivedMessage
      */
     public function getLocation(): ?Location
     {
-        if (!isset($this->payload['message']['location'])) {
-            return null;
-        }
-
-        return (new Location)
-            ->setLatitude($this->payload['message']['location']['latitude'])
-            ->setLongitude($this->payload['message']['location']['longitude']);
-    }
-
-    /**
-     * Determine if message has attachment.
-     *
-     * @return bool
-     */
-    public function hasAttachment(): bool
-    {
-        return collect($this->payload['message'])
-                ->keys()
-                ->intersect([
-                    'audio',
-                    'document',
-                    'photo',
-                    'sticker',
-                    'video',
-                    'voice',
-                ])
-                ->count() > 0;
+        return null;
     }
 
     /**
@@ -80,209 +50,36 @@ class SlackReceivedMessage implements ReceivedMessage
      */
     public function getAttachment(): ?Attachment
     {
-        return
-            $this->getAudio() ??
-            $this->getDocument() ??
-            $this->getPhoto() ??
-            $this->getSticker() ??
-            $this->getVideo() ??
-            $this->getVoice();
+        return null;
     }
 
     /**
-     * Determine if message has data payload.
+     * Determine if message has attachment.
+     *
+     * @return bool
+     */
+    public function hasAttachment(): bool
+    {
+        // TODO: Implement hasAttachment() method.
+    }
+
+    /**
+     * Determine if message has payload.
      *
      * @return bool
      */
     public function hasData(): bool
     {
-        return Arr::has($this->payload, ['callback_query']);
+        // TODO: Implement hasData() method.
     }
 
     /**
-     * Get data payload.
+     * Get payload.
      *
      * @return string|null
      */
     public function getData(): ?string
     {
-        return $this->hasData() ? Arr::get($this->payload, 'callback_query.data') : null;
-    }
-
-    /**
-     * Get audio.
-     *
-     * @return Attachment|null
-     */
-    public function getAudio(): ?Attachment
-    {
-        if (!isset($this->payload['message']['audio'])) {
-            return null;
-        }
-
-        return (new Attachment)
-            ->setType(Attachment::TYPE_AUDIO)
-            ->setPath($this->getFilePath($this->payload['message']['audio']['file_id']));
-    }
-
-    /**
-     * Get document.
-     *
-     * @return Attachment|null
-     */
-    public function getDocument(): ?Attachment
-    {
-        if (!isset($this->payload['message']['document'])) {
-            return null;
-        }
-
-        return (new Attachment)
-            ->setType(Attachment::TYPE_FILE)
-            ->setPath($this->getFilePath($this->payload['message']['document']['file_id']));
-    }
-
-    /**
-     * Get photo.
-     *
-     * @return Attachment|null
-     */
-    public function getPhoto(): ?Attachment
-    {
-        if (!isset($this->payload['message']['photo'])) {
-            return null;
-        }
-
-        /** @var array $photo */
-        $photo = collect($this->payload['message']['photo'])->sortByDesc('file_size')->first();
-
-        return (new Attachment)
-            ->setType(Attachment::TYPE_IMAGE)
-            ->setPath($this->getFilePath($photo['file_id']));
-    }
-
-    /**
-     * Get sticker.
-     *
-     * @return Attachment|null
-     */
-    public function getSticker(): ?Attachment
-    {
-        if (!isset($this->payload['message']['sticker'])) {
-            return null;
-        }
-
-        return (new Attachment)
-            ->setType(Attachment::TYPE_IMAGE)
-            ->setPath($this->getFilePath($this->payload['message']['sticker']['file_id']));
-    }
-
-    /**
-     * Get video.
-     *
-     * @return Attachment|null
-     */
-    public function getVideo(): ?Attachment
-    {
-        if (!isset($this->payload['message']['video'])) {
-            return null;
-        }
-
-        return (new Attachment)
-            ->setType(Attachment::TYPE_VIDEO)
-            ->setPath($this->getFilePath($this->payload['message']['video']['file_id']));
-    }
-
-    /**
-     * Get voice.
-     *
-     * @return Attachment|null
-     */
-    public function getVoice(): ?Attachment
-    {
-        if (!isset($this->payload['message']['voice'])) {
-            return null;
-        }
-
-        return (new Attachment)
-            ->setType(Attachment::TYPE_AUDIO)
-            ->setPath($this->getFilePath($this->payload['message']['voice']['file_id']));
-    }
-
-    /**
-     * Get contact.
-     *
-     * @return array|null
-     */
-    public function getContact(): ?array
-    {
-        if (!isset($this->payload['message']['contact'])) {
-            return null;
-        }
-
-        $contact = $this->payload['message']['contact'];
-
-        $phoneNumber = $contact['phone_number'];
-        $firstName = $contact['first_name'];
-        $lastName = $contact['last_name'] ?? null;
-        $userId = $contact['user_id'] ?? null;
-
-        return [
-            'phone_number' => $phoneNumber,
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-            'user_id' => $userId,
-        ];
-    }
-
-    /**
-     * Get venue.
-     *
-     * @return array|null
-     */
-    public function getVenue(): ?array
-    {
-        if (!isset($this->payload['message']['venue'])) {
-            return null;
-        }
-
-        $venue = $this->payload['message']['venue'];
-        $location = (new Location)
-            ->setLatitude($this->payload['message']['venue']['location']['latitude'])
-            ->setLongitude($this->payload['message']['venue']['location']['longitude']);
-
-        $title = $venue['title'];
-        $address = $venue['address'];
-        $foursquareId = $venue['foursquare_id'] ?? null;
-
-        return [
-            'location' => $location,
-            'title' => $title,
-            'address' => $address,
-            'foursquare_id' => $foursquareId,
-        ];
-    }
-
-    /**
-     * Get file path by id.
-     *
-     * @param string $fileId
-     *
-     * @return string
-     */
-    private function getFilePath(string $fileId): string
-    {
-        $response = $this->guzzle->post(
-            'https://api.telegram.org/bot'.$this->token.'/getFile',
-            [
-                'form_params' => [
-                    'file_id' => $fileId,
-                ],
-            ]
-        );
-
-        $response = $response->getBody()->getContents();
-        $response = json_decode($response, true);
-
-        return 'https://api.telegram.org/file/bot'.$this->token.'/'.$response['result']['file_path'];
+        // TODO: Implement getData() method.
     }
 }
