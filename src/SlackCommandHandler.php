@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace FondBot\Drivers\Telegram;
+namespace FondBot\Drivers\Slack;
 
 use FondBot\Templates\Attachment;
 use FondBot\Drivers\CommandHandler;

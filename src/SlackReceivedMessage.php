@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace FondBot\Drivers\Telegram;
+namespace FondBot\Drivers\Slack;
 
 use GuzzleHttp\Client;
 use FondBot\Templates\Location;

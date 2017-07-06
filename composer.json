@@ -1,5 +1,5 @@
 {
-  "name": "agoalofalife/drivers-slack",
+  "name": "fondbot/slack",
   "description": "Slack driver for FondBot",
   "type": "library",
   "license": "MIT",
@@ -22,7 +22,7 @@
   },
   "autoload": {
     "psr-4": {
-      "FondBot\\Drivers\\Telegram\\": "src/"
+      "FondBot\\Drivers\\Slack\\": "src/"
     }
   },
   "autoload-dev": {

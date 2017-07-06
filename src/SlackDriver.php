@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace FondBot\Drivers\Telegram;
+namespace FondBot\Drivers\Slack;
 
 use FondBot\Drivers\Chat;
 use FondBot\Drivers\User;
@@ -10,18 +10,10 @@ use FondBot\Drivers\Driver;
 use FondBot\Drivers\CommandHandler;
 use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\TemplateCompiler;
-use GuzzleHttp\Client;
 use FondBot\Drivers\Exceptions\InvalidRequest;
 
 class SlackDriver extends Driver
 {
-    private $guzzle;
-
-    public function __construct(Client $guzzle)
-    {
-        $this->guzzle = $guzzle;
-    }
-
     /**
      * Configuration parameters.
      *
@@ -60,7 +52,7 @@ class SlackDriver extends Driver
     public function getUser(): User
     {
         $from     = $this->getRequest('user');
-        $userData = $this->guzzle->get($this->getBaseUrl() . $this->mapDriver('infoAboutUser'),
+        $userData = $this->http->get($this->getBaseUrl() . $this->mapDriver('infoAboutUser'),
             [
                 'query' => [
                     'token' => $this->getParameter('token'),
@@ -97,7 +89,7 @@ class SlackDriver extends Driver
     public function getMessage(): ReceivedMessage
     {
         return new SlackReceivedMessage(
-            $this->guzzle,
+            $this->http,
             $this->getParameter('token'),
             $this->getRequest());
     }
@@ -119,7 +111,7 @@ class SlackDriver extends Driver
         ]);
 
         try {
-            $this->guzzle->post($this->getBaseUrl() . $this->mapDriver('postMessage'), [
+            $this->http->post($this->getBaseUrl() . $this->mapDriver('postMessage'), [
                 'form_params' => $query
             ]);
         } catch (RequestException $exception) {
