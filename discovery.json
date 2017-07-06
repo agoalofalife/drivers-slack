@@ -1,9 +1,9 @@
 {
   "FondBot\\Drivers\\Driver": [
     {
-      "value": "FondBot\\Drivers\\Telegram\\TelegramDriver",
+      "value": "FondBot\\Drivers\\Slack\\SlackDriver",
       "metadata": {
-        "name": "telegram",
+        "name": "slack",
         "parameters": [
           "token"
         ]
