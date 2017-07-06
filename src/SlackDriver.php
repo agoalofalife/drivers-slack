@@ -14,16 +14,10 @@ use FondBot\Drivers\Exceptions\InvalidRequest;
 
 class SlackDriver extends Driver
 {
-    /**
-     * Configuration parameters.
-     *
-     * @return array
-     */
-    public function getConfig(): array
+
+    public function getBaseUrl(): string
     {
-        return [
-            'token'
-        ];
+        return  'https://slack.com/api/';
     }
 
     /**
@@ -122,10 +116,7 @@ class SlackDriver extends Driver
     }
 
 
-    private function getBaseUrl(): string
-    {
-        return  'https://slack.com/api/';
-    }
+
 
     /**
      * Getting json conversion from guzzle
