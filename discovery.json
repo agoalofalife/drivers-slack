@@ -1,0 +1,13 @@
+{
+  "FondBot\\Drivers\\Driver": [
+    {
+      "value": "FondBot\\Drivers\\Telegram\\TelegramDriver",
+      "metadata": {
+        "name": "telegram",
+        "parameters": [
+          "token"
+        ]
+      }
+    }
+  ]
+}
