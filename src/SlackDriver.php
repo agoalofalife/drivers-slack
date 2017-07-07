@@ -41,7 +41,7 @@ class SlackDriver extends Driver implements WebhookVerification
      */
     public function getUser(): User
     {
-        $from     = $this->getRequest('user');
+        $from     = $this->request->getParameter('user');
         $userData = $this->http->get($this->getBaseUrl() . $this->mapDriver('infoAboutUser'),
             [
                 'query' => [
@@ -55,19 +55,15 @@ class SlackDriver extends Driver implements WebhookVerification
         {
             throw new \Exception($responseUser->error);
         }
-        $user['user']['id'] = $responseUser->user->id;
-        $user['user']['profile']['first_name']  =   $responseUser->user->profile->first_name;
-        $user['user']['profile']['last_name']   =   $responseUser->user->profile->last_name;
-        $user['user']['name']                   =   $responseUser->user->name;
 
-        $name = [$from['first_name'] ?? null, $from['last_name'] ?? null];
+        $name = [$responseUser->user->profile->first_name?? null, $responseUser->user->profile->last_name ?? null];
         $name = implode(' ', $name);
         $name = trim($name);
 
         return new User(
-            (string) $user['user']['id'],
+            (string) $responseUser->user->id,
             $name,
-            $user['user']['name']   ?? null
+            $responseUser->user->name   ?? null
         );
     }
 
@@ -173,12 +169,10 @@ class SlackDriver extends Driver implements WebhookVerification
      */
     public function getChat(): Chat
     {
-        $chat = $this->request->getParameter('message.chat');
-        dd('Here?');
+        $chat = $this->request->getParameters();
+
         return new Chat(
-            (string) $chat['id'],
-            $chat['title'] ?? '',
-            $chat['type']
+            (string) $chat['channel'], ''
         );
     }
 
