@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace FondBot\Drivers\Slack;
 
 use FondBot\Drivers\Chat;
-use FondBot\Drivers\Extensions\WebhookVerification;
 use FondBot\Drivers\User;
 use FondBot\Drivers\Driver;
 use FondBot\Drivers\CommandHandler;
@@ -153,7 +152,7 @@ class SlackDriver extends Driver
      */
     public function getTemplateCompiler(): ?TemplateCompiler
     {
-        // TODO: Implement getTemplateCompiler() method.
+        return new SlackTemplateCompiler();
     }
 
     /**
@@ -163,7 +162,7 @@ class SlackDriver extends Driver
      */
     public function getCommandHandler(): CommandHandler
     {
-        // TODO: Implement getCommandHandler() method.
+        return new SlackCommandHandler($this);
     }
 
     /**
