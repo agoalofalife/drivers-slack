@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FondBot\Drivers\Slack;
 
 use FondBot\Drivers\Chat;
+use FondBot\Drivers\Extensions\WebhookVerification;
 use FondBot\Drivers\User;
 use FondBot\Drivers\Driver;
 use FondBot\Drivers\CommandHandler;
@@ -26,12 +27,7 @@ class SlackDriver extends Driver
      */
     public function verifyRequest(): void
     {
-        if (
-            !$this->hasRequest('type')  ||
-            !$this->hasRequest('user')  ||
-            !$this->hasRequest('text')  ||
-            $this->getRequest('type') !== 'message'
-        ) {
+        if (!$this->request->hasParameters(['type', 'user', 'text'])) {
             throw new InvalidRequest('Invalid payload');
         }
     }
@@ -114,8 +110,6 @@ class SlackDriver extends Driver
 
         return $message;
     }
-
-
 
 
     /**
