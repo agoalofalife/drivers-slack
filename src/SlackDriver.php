@@ -174,7 +174,7 @@ class SlackDriver extends Driver implements WebhookVerification
     public function getChat(): Chat
     {
         $chat = $this->request->getParameter('message.chat');
-
+        dd('Here?');
         return new Chat(
             (string) $chat['id'],
             $chat['title'] ?? '',
