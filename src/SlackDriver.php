@@ -12,7 +12,6 @@ use FondBot\Drivers\CommandHandler;
 use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\TemplateCompiler;
 use FondBot\Drivers\Exceptions\InvalidRequest;
-use FondBot\Templates\Keyboard;
 
 class SlackDriver extends Driver implements WebhookVerification
 {
@@ -127,7 +126,7 @@ class SlackDriver extends Driver implements WebhookVerification
      * @return string
      * @throws \Exception
      */
-    private function mapDriver(string $name) : string
+    public function mapDriver(string $name) : string
     {
         $map =  [
             'infoAboutUser' => 'users.info',
