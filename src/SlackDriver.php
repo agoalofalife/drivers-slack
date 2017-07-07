@@ -76,8 +76,8 @@ class SlackDriver extends Driver implements WebhookVerification
     {
         return new SlackReceivedMessage(
             $this->http,
-            $this->getParameter('token'),
-            $this->getRequest());
+            $this->request->getParameters()
+        );
     }
 
     /**

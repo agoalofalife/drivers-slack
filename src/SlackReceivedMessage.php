@@ -13,13 +13,11 @@ use FondBot\Drivers\ReceivedMessage;
 class SlackReceivedMessage implements ReceivedMessage
 {
     private $guzzle;
-    private $token;
     private $payload;
 
-    public function __construct(Client $guzzle, string $token, array $payload)
+    public function __construct(Client $guzzle, array $payload)
     {
         $this->guzzle  = $guzzle;
-        $this->token   = $token;
         $this->payload = $payload;
     }
 
