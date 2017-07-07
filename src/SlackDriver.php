@@ -194,11 +194,14 @@ class SlackDriver extends Driver implements WebhookVerification
 
     /**
      * Run webhook verification and respond if required.
-     *
      * @return mixed
+     * @throws InvalidRequest
      */
     public function verifyWebhook()
     {
-        return $this->request->getParameter('challenge');
+        if ($this->request->getParameter('token') === $this->getParameter('verify_token')) {
+            return $this->request->getParameter('challenge');
+        }
+        throw new InvalidRequest('Invalid verify token');
     }
 }
