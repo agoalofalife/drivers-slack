@@ -22,6 +22,7 @@ class SlackCommandHandler extends CommandHandler
      */
     protected function handleSendMessage(SendMessage $command): void
     {
+        dd($command->getText());
         $payload = [
             'chat_id' => $command->getChat()->getId(),
             'text' => $command->getText(),
@@ -30,6 +31,7 @@ class SlackCommandHandler extends CommandHandler
         if ($command->getTemplate() !== null) {
             $payload['reply_markup'] = $this->driver->getTemplateCompiler()->compile($command->getTemplate());
         }
+
 
         $this->driver->getHttp()->post($this->driver->getBaseUrl().'/sendMessage', ['json' => $payload]);
     }

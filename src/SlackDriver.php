@@ -12,6 +12,7 @@ use FondBot\Drivers\CommandHandler;
 use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\TemplateCompiler;
 use FondBot\Drivers\Exceptions\InvalidRequest;
+use FondBot\Templates\Keyboard;
 
 class SlackDriver extends Driver implements WebhookVerification
 {
