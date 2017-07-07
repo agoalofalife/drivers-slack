@@ -22,7 +22,6 @@ class SlackCommandHandler extends CommandHandler
      */
     protected function handleSendMessage(SendMessage $command): void
     {
-
         $payload = [
             'channel' => $command->getChat()->getId(),
             'text' => $command->getText(),
@@ -35,12 +34,9 @@ class SlackCommandHandler extends CommandHandler
             'token'   => $this->driver->getParameter('token')
         ]);
 
-//        dd($payload);
-        dd($this->driver->getHttp()->post($this->driver->getBaseUrl() . $this->driver->mapDriver('postMessage'), [
+        $this->driver->getHttp()->post($this->driver->getBaseUrl() . $this->driver->mapDriver('postMessage'), [
             'query' => $payload
-        ]));
-
-//        $this->driver->getHttp()->post($this->driver->getBaseUrl().'/sendMessage', ['json' => $payload]);
+        ])->getBody()->getContents();
     }
 
     /**
