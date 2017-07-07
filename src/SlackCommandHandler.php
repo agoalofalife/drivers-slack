@@ -12,7 +12,7 @@ use FondBot\Drivers\Commands\SendAttachment;
 
 class SlackCommandHandler extends CommandHandler
 {
-    /** @var TelegramDriver */
+    /** @var SlackDriver */
     protected $driver;
 
     /**

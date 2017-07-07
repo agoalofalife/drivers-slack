@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FondBot\Drivers\Slack;
 
 use FondBot\Drivers\Chat;
+use FondBot\Drivers\Extensions\WebhookVerification;
 use FondBot\Drivers\User;
 use FondBot\Drivers\Driver;
 use FondBot\Drivers\CommandHandler;
@@ -12,7 +13,7 @@ use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\TemplateCompiler;
 use FondBot\Drivers\Exceptions\InvalidRequest;
 
-class SlackDriver extends Driver
+class SlackDriver extends Driver implements WebhookVerification
 {
 
     public function getBaseUrl(): string
@@ -172,6 +173,32 @@ class SlackDriver extends Driver
      */
     public function getChat(): Chat
     {
-        // TODO: Implement getChat() method.
+        $chat = $this->request->getParameter('message.chat');
+
+        return new Chat(
+            (string) $chat['id'],
+            $chat['title'] ?? '',
+            $chat['type']
+        );
+    }
+
+    /**
+     * Whether current request type is verification.
+     *
+     * @return bool
+     */
+    public function isVerificationRequest(): bool
+    {
+        return $this->request->getParameter('type') === 'url_verification';
+    }
+
+    /**
+     * Run webhook verification and respond if required.
+     *
+     * @return mixed
+     */
+    public function verifyWebhook()
+    {
+        return $this->request->getParameter('challenge');
     }
 }
