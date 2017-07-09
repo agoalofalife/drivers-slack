@@ -28,7 +28,7 @@ class SlackReceivedMessage implements ReceivedMessage
      */
     public function getText(): ?string
     {
-        return $this->payload['text'] ?? null;
+        return $this->payload['event']['text'] ?? null;
     }
 
     /**
