@@ -27,7 +27,10 @@ class SlackDriver extends Driver implements WebhookVerification
      */
     public function verifyRequest(): void
     {
-        if (!$this->request->hasParameters(['type', 'user', 'text'])) {
+        if (
+        ($this->request->getParameter('token') == $this->getParameter('verify_token'))
+        &&
+        !$this->request->hasParameters(['type', 'event.user', 'event.text', 'event.channel'])) {
             throw new InvalidRequest('Invalid payload');
         }
     }
@@ -41,7 +44,8 @@ class SlackDriver extends Driver implements WebhookVerification
      */
     public function getUser(): User
     {
-        $from     = $this->request->getParameter('user');
+        $from     = $this->request->getParameter('event.user');
+
         $userData = $this->http->get($this->getBaseUrl() . $this->mapDriver('infoAboutUser'),
             [
                 'query' => [
