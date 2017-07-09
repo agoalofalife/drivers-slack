@@ -87,34 +87,6 @@ class SlackDriver extends Driver implements WebhookVerification
     }
 
     /**
-     *  Send reply to participant.
-     *
-     * @param User $sender
-     * @param string $text
-     * @param Keyboard|null $keyboard
-     * @return OutgoingMessage|ReceiverMessage
-     * @internal param Receiver $receiver
-     */
-    public function sendMessage(User $sender, string $text, Keyboard $keyboard = null): OutgoingMessage
-    {
-        $message = new SlackOutgoingMessage($sender, $text, $keyboard);
-        $query   = array_merge($message->toArray(), [
-            'token'   => $this->getParameter('token')
-        ]);
-
-        try {
-            $this->http->post($this->getBaseUrl() . $this->mapDriver('postMessage'), [
-                'form_params' => $query
-            ]);
-        } catch (RequestException $exception) {
-            $this->error(get_class($exception), [$exception->getMessage()]);
-        }
-
-        return $message;
-    }
-
-
-    /**
      * Getting json conversion from guzzle
      *
      * @param $guzzleBody
