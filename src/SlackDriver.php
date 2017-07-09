@@ -54,7 +54,6 @@ class SlackDriver extends Driver implements WebhookVerification
                 ]
             ])->getBody();
 
-
         if ( ($responseUser = $this->jsonNormalize($userData))->ok === false)
         {
             throw new \Exception($responseUser->error);
@@ -176,7 +175,9 @@ class SlackDriver extends Driver implements WebhookVerification
         $chat = $this->request->getParameters();
 
         return new Chat(
-            (string) $chat['channel'], ''
+            (string) $chat['event']['channel'],
+            $chat['title'] ?? '',
+            $chat['event']['type']
         );
     }
 
