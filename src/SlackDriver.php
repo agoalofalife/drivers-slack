@@ -27,11 +27,14 @@ class SlackDriver extends Driver implements WebhookVerification
      */
     public function verifyRequest(): void
     {
-        if (
-        ($this->request->getParameter('token') == $this->getParameter('verify_token'))
-        &&
-        !$this->request->hasParameters(['type', 'event.user', 'event.text', 'event.channel'])) {
-            throw new InvalidRequest('Invalid payload');
+        if ( !$this->request->getParameter('token') == $this->getParameter('verify_token')
+            &&
+            !( $this->request->hasParameters(['type', 'event.user', 'event.text', 'event.channel'])
+            ||
+            $this->request->hasParameters(['channel_id', 'text', 'user_id']))
+           )
+        {
+             throw new InvalidRequest('Invalid payload');
         }
     }
 
@@ -44,7 +47,7 @@ class SlackDriver extends Driver implements WebhookVerification
      */
     public function getUser(): User
     {
-        $from     = $this->request->getParameter('event.user');
+        $from     = $this->request->getParameter('event.user') ?? $this->request->getParameter('user_id');
 
         $userData = $this->http->get($this->getBaseUrl() . $this->mapDriver('infoAboutUser'),
             [
@@ -175,9 +178,8 @@ class SlackDriver extends Driver implements WebhookVerification
         $chat = $this->request->getParameters();
 
         return new Chat(
-            (string) $chat['event']['channel'],
-            $chat['title'] ?? '',
-            $chat['event']['type']
+            (string) isset( $chat['event']) ? $chat['event']['channel'] : $chat['channel_id'],
+            ''
         );
     }
 
