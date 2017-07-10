@@ -7,7 +7,7 @@ namespace FondBot\Drivers\Slack\Templates;
 use FondBot\Contracts\Arrayable;
 use FondBot\Templates\Keyboard\Button;
 
-class RequestContactButton extends Button implements Arrayable
+class RequestButton extends Button implements Arrayable
 {
     /**
      * Get name.

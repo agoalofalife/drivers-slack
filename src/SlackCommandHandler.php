@@ -36,7 +36,7 @@ class SlackCommandHandler extends CommandHandler
 
         $this->driver->getHttp()->post($this->driver->getBaseUrl() . $this->driver->mapDriver('postMessage'), [
             'query' => $payload
-        ])->getBody()->getContents();
+        ]);
     }
 
     /**
@@ -66,19 +66,22 @@ class SlackCommandHandler extends CommandHandler
         }
 
         $payload = [
-            'multipart' => [
-                [
-                    'name' => 'chat_id',
-                    'contents' => $command->getChat()->getId(),
-                ],
-                [
-                    'name' => $type,
-                    'contents' => fopen($command->getAttachment()->getPath(), 'rb'),
-                ],
-            ],
+            'channel' => $command->getChat()->getId(),
+            'text' => 'sx',
+            'token' => $this->driver->getParameter('token'),
+            'attachments' => json_encode([
+               [
+                   "text" => "And here’s an attachment!",
+                   "title" =>  "Slack API Documentation",
+                    "image_url" => "http://my-website.com/path/to/image.jpg",
+                   "author_link" =>  "http://flickr.com/bobby/",
+               ]
+            ]),
         ];
 
-        $this->driver->getHttp()->post($this->driver->getBaseUrl().'/'.$endpoint, $payload);
+        $this->driver->getHttp()->post($this->driver->getBaseUrl() . $this->driver->mapDriver('postMessage'), [
+            'query' => $payload
+        ])->getBody()->getContents();
     }
 
     /**
