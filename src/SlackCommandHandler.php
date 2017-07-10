@@ -26,10 +26,10 @@ class SlackCommandHandler extends CommandHandler
             'channel' => $command->getChat()->getId(),
             'text' => $command->getText(),
         ];
-           // template
-//        if ($command->getTemplate() !== null) {
-//            $payload['reply_markup'] = $this->driver->getTemplateCompiler()->compile($command->getTemplate());
-//        }
+
+        if ($command->getTemplate() !== null) {
+            $payload['attachments'] = $this->driver->getTemplateCompiler()->compile($command->getTemplate());
+        }
         $payload   = array_merge($payload, [
             'token'   => $this->driver->getParameter('token')
         ]);

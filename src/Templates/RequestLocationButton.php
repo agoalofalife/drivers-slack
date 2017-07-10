@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace FondBot\Drivers\Telegram\Slack;
+namespace FondBot\Drivers\Slack\Templates;
 
 use FondBot\Contracts\Arrayable;
 use FondBot\Templates\Keyboard\Button;
