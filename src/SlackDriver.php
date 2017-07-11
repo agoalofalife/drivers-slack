@@ -41,12 +41,11 @@ class SlackDriver extends Driver implements WebhookVerification
      */
     public function verifyRequest(): void
     {
-        if ( !$this->request->getParameter('token') == $this->getParameter('verify_token') )
-        {
-            throw new InvalidRequest('Invalid verify token');
-        }
 
-        $this->factoryTypeRequest($this->request);
+
+        $this->concreteRequest = $this->factoryTypeRequest($this->request);
+        $this->concreteRequest->verifyRequest($this->request, $this);
+        file_put_contents(path().'file.txt', json_encode($this->concreteRequest));
     }
 
 
@@ -196,17 +195,17 @@ class SlackDriver extends Driver implements WebhookVerification
     {
         if ($request->hasParameters(['type', 'event.user', 'event.text', 'event.channel']))
         {
-            return $this->concreteRequest = new EventRequest();
+            return new EventRequest();
         }
 
         if ($request->hasParameters(['channel_id', 'text', 'user_id']))
         {
-           return  $this->concreteRequest = new CommandRequest();
+           return  new CommandRequest();
         }
 
-        if ($request->hasParameters(['actions', 'channel', 'user']))
+        if ($request->hasParameters(['payload.actions', 'payload.channel', 'payload.user']))
         {
-            return  $this->concreteRequest = new ResponseButtonRequest();
+            return new ResponseButtonRequest();
         }
         throw new InvalidRequest('Invalid type request');
     }
