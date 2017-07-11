@@ -48,8 +48,12 @@ class SlackCommandHandler extends CommandHandler
     {
         switch ($command->getAttachment()->getType()) {
             case Attachment::TYPE_IMAGE:
-                $type = 'photo';
-                $endpoint = 'sendPhoto';
+                $selected =
+                    json_encode([
+                        [
+                        'image_url' => $command->getAttachment()->getPath()
+                        ]
+                    ]);
                 break;
             case Attachment::TYPE_AUDIO:
                 $type = 'audio';
@@ -69,12 +73,13 @@ class SlackCommandHandler extends CommandHandler
             'channel' => $command->getChat()->getId(),
             'text' => 'sx',
             'token' => $this->driver->getParameter('token'),
-            'attachments' => json_encode([
+            'attachments' =>
+                json_encode([
                [
                    "text" => "And here’s an attachment!",
-                   "title" =>  "Slack API Documentation",
-                    "image_url" => "http://my-website.com/path/to/image.jpg",
-                   "author_link" =>  "http://flickr.com/bobby/",
+//                   "title" =>  "Slack API Documentation",
+                    "image_url" => 'http://img0.marimedia.ru/static/834978c33e059ecc622f95ee29a18f87/thumbs/media/articles/404/ab114d1441dd7aa82a8c322e4290a5d0.jpg/660x660.jpg',
+//                   "author_link" =>  "http://flickr.com/bobby/",
                ]
             ]),
         ];
