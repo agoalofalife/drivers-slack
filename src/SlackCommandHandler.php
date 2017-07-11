@@ -46,44 +46,27 @@ class SlackCommandHandler extends CommandHandler
      */
     protected function handleSendAttachment(SendAttachment $command): void
     {
-        switch ($command->getAttachment()->getType()) {
-            case Attachment::TYPE_IMAGE:
-                $selected =
-                    json_encode([
-                        [
-                        'image_url' => $command->getAttachment()->getPath()
-                        ]
-                    ]);
-                break;
-            case Attachment::TYPE_AUDIO:
-                $type = 'audio';
-                $endpoint = 'sendAudio';
-                break;
-            case Attachment::TYPE_VIDEO:
-                $type = 'video';
-                $endpoint = 'sendVideo';
-                break;
-            default:
-                $type = 'document';
-                $endpoint = 'sendDocument';
-                break;
-        }
-
+//        $payload = [
+//            'channel' => $command->getChat()->getId(),
+//            'text' => 'sx',
+//            'token' => $this->driver->getParameter('token'),
+//            'attachments' =>
+//                json_encode([
+//               [
+//                   "text" => "And here’s an attachment!",
+////                   "title" =>  "Slack API Documentation",
+//                    "image_url" => 'http://img0.marimedia.ru/static/834978c33e059ecc622f95ee29a18f87/thumbs/media/articles/404/ab114d1441dd7aa82a8c322e4290a5d0.jpg/660x660.jpg',
+////                   "author_link" =>  "http://flickr.com/bobby/",
+//               ]
+//            ]),
+//        ];
         $payload = [
             'channel' => $command->getChat()->getId(),
-            'text' => 'sx',
-            'token' => $this->driver->getParameter('token'),
-            'attachments' =>
-                json_encode([
-               [
-                   "text" => "And here’s an attachment!",
-//                   "title" =>  "Slack API Documentation",
-                    "image_url" => 'http://img0.marimedia.ru/static/834978c33e059ecc622f95ee29a18f87/thumbs/media/articles/404/ab114d1441dd7aa82a8c322e4290a5d0.jpg/660x660.jpg',
-//                   "author_link" =>  "http://flickr.com/bobby/",
-               ]
-            ]),
+//            'text' => 'sx',
+            'token'   => $this->driver->getParameter('token'),
         ];
 
+        $payload =   array_merge($payload,  $command->getAttachment()->getMetadata());
         $this->driver->getHttp()->post($this->driver->getBaseUrl() . $this->driver->mapDriver('postMessage'), [
             'query' => $payload
         ])->getBody()->getContents();

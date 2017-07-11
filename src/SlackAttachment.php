@@ -4,101 +4,22 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Slack;
 
-class Attachment
+use FondBot\Drivers\Slack\Contracts\Attachment as ContractAttachment;
+use FondBot\Templates\Attachment;
+
+class SlackAttachment extends Attachment implements ContractAttachment
 {
-    public const TYPE_FILE = 'file';
-    public const TYPE_IMAGE = 'image';
-    public const TYPE_AUDIO = 'audio';
-    public const TYPE_VIDEO = 'video';
+    private const name = 'attachments';
+    private $parameters = [self::name];
 
-    private $type;
-    private $path;
-    private $metadata;
-
-    /**
-     * Get type.
-     *
-     * @return string
-     */
-    public function getType(): string
+    public function setMetadata(array $parameters) : Attachment
     {
-        return $this->type;
-    }
-
-    /**
-     * Set type.
-     *
-     * @param string $type
-     *
-     * @return Attachment
-     */
-    public function setType(string $type): Attachment
-    {
-        $this->type = $type;
-
+        $this->parameters[self::name] = json_encode($parameters);
         return $this;
     }
 
-    /**
-     * Get path.
-     *
-     * @return string
-     */
-    public function getPath(): string
+    public function getMetadata() : array
     {
-        return $this->path;
-    }
-
-    /**
-     * Set path.
-     *
-     * @param string $path
-     *
-     * @return Attachment
-     */
-    public function setPath(string $path): Attachment
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
-    /**
-     * Get metadata.
-     *
-     * @return array
-     */
-    public function getMetadata(): array
-    {
-        return $this->metadata;
-    }
-
-    /**
-     * Set metadata.
-     *
-     * @param array $metadata
-     *
-     * @return Attachment
-     */
-    public function setMetadata(array $metadata): Attachment
-    {
-        $this->metadata = $metadata;
-
-        return $this;
-    }
-
-    /**
-     * Get all types.
-     *
-     * @return array
-     */
-    public static function possibleTypes(): array
-    {
-        return [
-            static::TYPE_FILE,
-            static::TYPE_IMAGE,
-            static::TYPE_AUDIO,
-            static::TYPE_VIDEO,
-        ];
+        return $this->parameters;
     }
 }
