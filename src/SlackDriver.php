@@ -15,7 +15,11 @@ use FondBot\Drivers\Exceptions\InvalidRequest;
 
 class SlackDriver extends Driver implements WebhookVerification
 {
+    use FactoryTypeRequest;
 
+    /**
+     * @return string
+     */
     public function getBaseUrl(): string
     {
         return  'https://slack.com/api/';
@@ -47,7 +51,7 @@ class SlackDriver extends Driver implements WebhookVerification
      */
     public function getUser(): User
     {
-        $from     = $this->request->getParameter('event.user') ?? $this->request->getParameter('user_id');
+        $from     = $this->getUserId($this->request);
 
         $userData = $this->http->get($this->getBaseUrl() . $this->mapDriver('infoAboutUser'),
             [
@@ -147,10 +151,8 @@ class SlackDriver extends Driver implements WebhookVerification
      */
     public function getChat(): Chat
     {
-        $chat = $this->request->getParameters();
-
         return new Chat(
-            (string) isset( $chat['event']) ? $chat['event']['channel'] : $chat['channel_id'],
+            (string) $this->getChatId($this->request),
             ''
         );
     }
