@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Slack;
 
-use FondBot\Drivers\Slack\Contracts\Attachment as ContractAttachment;
 use FondBot\Templates\Attachment;
 
-class SlackAttachment extends Attachment implements ContractAttachment
+class SlackAttachment extends Attachment
 {
     private const name = 'attachments';
     private $parameters;
