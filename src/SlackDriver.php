@@ -6,16 +6,24 @@ namespace FondBot\Drivers\Slack;
 
 use FondBot\Drivers\Chat;
 use FondBot\Drivers\Extensions\WebhookVerification;
+use FondBot\Drivers\Slack\Contracts\TypeRequest;
+use FondBot\Drivers\Slack\TypeRequest\CommandRequest;
+use FondBot\Drivers\Slack\TypeRequest\EventRequest;
+use FondBot\Drivers\Slack\TypeRequest\ResponseButtonRequest;
 use FondBot\Drivers\User;
 use FondBot\Drivers\Driver;
 use FondBot\Drivers\CommandHandler;
 use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\TemplateCompiler;
 use FondBot\Drivers\Exceptions\InvalidRequest;
+use FondBot\Http\Request as HttpRequest;
 
 class SlackDriver extends Driver implements WebhookVerification
 {
-    use FactoryTypeRequest;
+    /**
+     * @var TypeRequest
+     */
+    protected $concreteRequest;
 
     /**
      * @return string
@@ -28,18 +36,17 @@ class SlackDriver extends Driver implements WebhookVerification
     /**
      * Verify incoming request data.
      *
+     * @return void
+     * @throws InvalidRequest
      */
     public function verifyRequest(): void
     {
-        if ( !$this->request->getParameter('token') == $this->getParameter('verify_token')
-            &&
-            !( $this->request->hasParameters(['type', 'event.user', 'event.text', 'event.channel'])
-            ||
-            $this->request->hasParameters(['channel_id', 'text', 'user_id']))
-           )
+        if ( !$this->request->getParameter('token') == $this->getParameter('verify_token') )
         {
-             throw new InvalidRequest('Invalid payload');
+            throw new InvalidRequest('Invalid verify token');
         }
+
+        $this->factoryTypeRequest($this->request);
     }
 
 
@@ -51,7 +58,7 @@ class SlackDriver extends Driver implements WebhookVerification
      */
     public function getUser(): User
     {
-        $from     = $this->getUserId($this->request);
+        $from     = $this->concreteRequest->getUserId($this->request);
 
         $userData = $this->http->get($this->getBaseUrl() . $this->mapDriver('infoAboutUser'),
             [
@@ -152,7 +159,7 @@ class SlackDriver extends Driver implements WebhookVerification
     public function getChat(): Chat
     {
         return new Chat(
-            (string) $this->getChatId($this->request),
+            (string) $this->concreteRequest->getChatId($this->request),
             ''
         );
     }
@@ -178,5 +185,29 @@ class SlackDriver extends Driver implements WebhookVerification
             return $this->request->getParameter('challenge');
         }
         throw new InvalidRequest('Invalid verify token');
+    }
+
+    /**
+     * @param HttpRequest $request
+     * @return TypeRequest
+     * @throws InvalidRequest
+     */
+    private function factoryTypeRequest(HttpRequest $request) : TypeRequest
+    {
+        if ($request->hasParameters(['type', 'event.user', 'event.text', 'event.channel']))
+        {
+            return $this->concreteRequest = new EventRequest();
+        }
+
+        if ($request->hasParameters(['channel_id', 'text', 'user_id']))
+        {
+           return  $this->concreteRequest = new CommandRequest();
+        }
+
+        if ($request->hasParameters(['actions', 'channel', 'user']))
+        {
+            return  $this->concreteRequest = new ResponseButtonRequest();
+        }
+        throw new InvalidRequest('Invalid type request');
     }
 }
