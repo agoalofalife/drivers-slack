@@ -18,7 +18,8 @@ class ResponseButtonRequest implements TypeRequest
      */
     public function getUserId(HttpRequest $request): string
     {
-        return $request->getParameter('user.id');
+        $response = json_decode($request->getParameter('payload'));
+        return $response->user->id;
     }
 
     /**
@@ -27,7 +28,8 @@ class ResponseButtonRequest implements TypeRequest
      */
     public function getChatId(HttpRequest $request): string
     {
-        return  (string) $request->getParameter('channel.id');
+        $response = json_decode($request->getParameter('payload'));
+        return  (string) $response->channel->id;
     }
 
     /**
@@ -40,7 +42,9 @@ class ResponseButtonRequest implements TypeRequest
      */
     public function verifyRequest(HttpRequest $request, SlackDriver $driver): void
     {
-        if ( !$request->getParameter('payload.token') == $driver->getParameter('verify_token') )
+        $response = json_decode($request->getParameter('payload'));
+
+        if ( !$response->token == $driver->getParameter('verify_token') )
         {
             throw new InvalidRequest('Invalid verify token');
         }

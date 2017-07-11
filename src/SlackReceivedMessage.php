@@ -15,7 +15,7 @@ class SlackReceivedMessage implements ReceivedMessage
     private $guzzle;
     private $payload;
 
-    public function __construct(Client $guzzle, array $payload)
+    public function __construct(Client $guzzle, $payload)
     {
         $this->guzzle  = $guzzle;
         $this->payload = $payload;
@@ -28,7 +28,9 @@ class SlackReceivedMessage implements ReceivedMessage
      */
     public function getText(): ?string
     {
-        return $this->payload['event']['text'] ?? $this->payload['command'] ?? $this->payload['actions']['value'];
+        $string = $this->payload['payload'];
+        file_put_contents(path(). 'file.txt', json_decode($string)->actions);
+        return $this->payload['event']['text'] ?? $this->payload['command'] ?? json_decode((string)$this->payload)['payload']['actions']['value'];
     }
 
     /**

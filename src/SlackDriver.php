@@ -41,11 +41,8 @@ class SlackDriver extends Driver implements WebhookVerification
      */
     public function verifyRequest(): void
     {
-
-
         $this->concreteRequest = $this->factoryTypeRequest($this->request);
         $this->concreteRequest->verifyRequest($this->request, $this);
-        file_put_contents(path().'file.txt', json_encode($this->concreteRequest));
     }
 
 
@@ -203,7 +200,7 @@ class SlackDriver extends Driver implements WebhookVerification
            return  new CommandRequest();
         }
 
-        if ($request->hasParameters(['payload.actions', 'payload.channel', 'payload.user']))
+        if ($request->hasParameters(['payload']))
         {
             return new ResponseButtonRequest();
         }
