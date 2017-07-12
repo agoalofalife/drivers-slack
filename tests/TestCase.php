@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use GuzzleHttp\Client;
 use Mockery;
 use Faker\Factory;
 use Faker\Generator;
@@ -30,6 +31,13 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     protected function mock(string $class)
     {
         return Mockery::mock($class);
+    }
+
+    /**
+     * @return mixed|Mockery\Mock
+     */
+    protected function guzzle() {
+        return $this->guzzle ?? $this->mock(Client::class);
     }
 
     protected function factoryTypeRequest() : array
