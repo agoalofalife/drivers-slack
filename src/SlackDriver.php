@@ -210,6 +210,7 @@ class SlackDriver extends Driver implements WebhookVerification
             {
                 return new ResponseButtonRequest($request);
             }
+
             if (isset($data['actions'][0]['selected_options']))
             {
 
