@@ -193,17 +193,17 @@ class SlackDriver extends Driver implements WebhookVerification
         file_put_contents(path(). 'file.txt', gettype($request->getParameters()['payload']));
         if ($request->hasParameters(['type', 'event.user', 'event.text', 'event.channel']))
         {
-            return new EventRequest();
+            return new EventRequest($request);
         }
 
         if ($request->hasParameters(['channel_id', 'text', 'user_id']))
         {
-           return  new CommandRequest();
+           return  new CommandRequest($request);
         }
 
         if ($request->hasParameters(['payload']))
         {
-            return new ResponseButtonRequest();
+            return new ResponseButtonRequest($request);
         }
         throw new InvalidRequest('Invalid type request');
     }
