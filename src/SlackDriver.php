@@ -89,7 +89,7 @@ class SlackDriver extends Driver implements WebhookVerification
     {
         return new SlackReceivedMessage(
             $this->http,
-            $this->request
+            $this->concreteRequest->getParameters()
         );
     }
 
