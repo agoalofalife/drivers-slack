@@ -53,12 +53,10 @@ class EventRequest implements TypeRequest
     }
 
     /**
-     * Get parameters
-     *
-     * @return array
+     * @return null|string
      */
-    public function getParameters(): array
+    public function getText() : ?string
     {
-        return $this->request->getParameters();
+        return $this->request->getParameter('event.text');
     }
 }

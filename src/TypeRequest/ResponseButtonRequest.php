@@ -65,11 +65,19 @@ class ResponseButtonRequest implements TypeRequest
     }
 
     /**
+     * @return string
+     */
+    public function getText(): string
+    {
+        return $this->getParameters()['actions'][0]['value'];
+    }
+
+    /**
      * Get parameters
      *
      * @return array
      */
-    public function getParameters(): array
+    private function getParameters(): array
     {
         return json_decode($this->request->getParameter('payload'), true);
     }

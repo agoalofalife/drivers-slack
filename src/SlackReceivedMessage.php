@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Slack;
 
+use FondBot\Drivers\Slack\Contracts\TypeRequest;
 use GuzzleHttp\Client;
 use FondBot\Templates\Location;
 use FondBot\Templates\Attachment;
@@ -20,11 +21,17 @@ class SlackReceivedMessage implements ReceivedMessage
     private $guzzle;
 
     /**
-     * @var array
+     * @var TypeRequest
      */
     private $payload;
 
-    public function __construct(Client $guzzle, array $payload)
+    /**
+     * SlackReceivedMessage constructor.
+     *
+     * @param Client      $guzzle
+     * @param TypeRequest $payload
+     */
+    public function __construct(Client $guzzle, TypeRequest $payload)
     {
         $this->guzzle  = $guzzle;
         $this->payload = $payload;
@@ -37,7 +44,7 @@ class SlackReceivedMessage implements ReceivedMessage
      */
     public function getText(): ?string
     {
-        return $this->payload['event']['text'] ?? $this->payload['command'] ?? $this->payload['actions'][0]['value'] ?? $this->payload['actions'][0]['selected_options'][0]['value'];
+        return $this->payload->getText();
     }
 
     /**

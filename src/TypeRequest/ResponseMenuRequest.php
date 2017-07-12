@@ -75,8 +75,16 @@ class ResponseMenuRequest implements TypeRequest
      *
      * @return array
      */
-    public function getParameters(): array
+    private function getParameters(): array
     {
         return json_decode($this->request->getParameter('payload'), true);
+    }
+
+    /**
+     * @return string
+     */
+    public function getText(): string
+    {
+        return $this->getParameters()['actions'][0]['selected_options'][0]['value'];
     }
 }

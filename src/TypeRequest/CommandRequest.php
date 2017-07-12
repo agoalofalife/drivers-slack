@@ -51,12 +51,10 @@ class CommandRequest implements TypeRequest
     }
 
     /**
-     * Get parameters
-     *
-     * @return array
+     * @return null|string
      */
-    public function getParameters(): array
+    public function getText() : ?string
     {
-        return $this->request->getParameters();
+        $this->request->getParameter('command');
     }
 }

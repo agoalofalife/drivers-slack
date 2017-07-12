@@ -29,8 +29,7 @@ interface TypeRequest
     public function verifyRequest(SlackDriver $driver): void;
 
     /**
-     * Get parameters
-     * @return array
+     * @return string
      */
-    public function getParameters() : array;
+    public function getText() : ?string ;
 }
