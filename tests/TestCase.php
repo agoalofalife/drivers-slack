@@ -39,9 +39,33 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return [
           'type' => $faker->word,
             'event' => [
-                'user' => $faker->userName,
+                'user' => $faker->randomDigit,
                 'text' => $faker->text,
                 'channel' => $faker->randomLetter
+            ]
+        ];
+    }
+
+    /**
+     * Get user info generate
+     * @link https://api.slack.com/methods/users.info
+     * @return array
+     */
+    protected function factoryUserInfo()
+    {
+        $faker = $this->faker();
+        return [
+            "ok" =>  $faker->boolean(),
+               "user" => [
+                "id"  => $faker->randomLetter,
+                "name"=> $faker->name,
+                "deleted" => $faker->boolean(),
+                "color"   => $faker->hexcolor,
+                "profile" => [
+                    "first_name"=> $faker->userName,
+                    "last_name"=> $faker->lastName,
+                    "real_name"=> $faker->name,
+                ]
             ]
         ];
     }

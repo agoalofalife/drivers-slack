@@ -44,6 +44,16 @@ class SlackDriverTest extends TestCase
         $this->driver->verifyRequest();
     }
 
+    public function test_getUser()
+    {
+        $this->guzzle->shouldReceive('get')
+             ->with($this->driver->getBaseUrl() . $this->driver
+             ->mapDriver('infoAboutUser'), \Mockery::type('array'))
+             ->once()
+             ->andReturn($this->factoryUserInfo());
+
+
+    }
     public function test_getMessage()
     {
         $this->driver->verifyRequest();
