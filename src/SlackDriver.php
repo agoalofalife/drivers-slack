@@ -17,7 +17,6 @@ use FondBot\Drivers\CommandHandler;
 use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\TemplateCompiler;
 use FondBot\Drivers\Exceptions\InvalidRequest;
-use FondBot\Http\Request as HttpRequest;
 
 class SlackDriver extends Driver implements WebhookVerification
 {
@@ -92,17 +91,6 @@ class SlackDriver extends Driver implements WebhookVerification
             $this->http,
             $this->concreteRequest
         );
-    }
-
-    /**
-     * Getting json conversion from guzzle
-     *
-     * @param $guzzleBody
-     * @return mixed
-     */
-    private function jsonNormalize($guzzleBody)
-    {
-        return json_decode((string) $guzzleBody);
     }
 
     /**
@@ -218,5 +206,16 @@ class SlackDriver extends Driver implements WebhookVerification
             }
         }
         throw new InvalidRequest('Invalid type request');
+    }
+
+    /**
+     * Getting json conversion from guzzle
+     *
+     * @param $guzzleBody
+     * @return mixed
+     */
+    private function jsonNormalize($guzzleBody)
+    {
+        return json_decode((string) $guzzleBody);
     }
 }

@@ -78,6 +78,20 @@ class SlackDriverTest extends TestCase
         $this->assertInstanceOf(ReceivedMessage::class,  $this->driver->getMessage());
     }
 
+    public function test_mapDriver()
+    {
+        $revise = ['infoAboutUser' => 'users.info', 'postMessage' => 'chat.postMessage'];
+        $name   = $this->faker()->randomElement(['infoAboutUser', 'postMessage']);
+
+        $this->assertEquals($revise[$name], $this->driver->mapDriver($name));
+    }
+
+    public function test_mapDriver_Exception()
+    {
+        $this->expectException(\Exception::class);
+        $this->driver->mapDriver($this->faker()->name);
+    }
+
 //    /**
 //     * @expectedException \FondBot\Drivers\Exceptions\InvalidRequest
 //     * @expectedExceptionMessage Invalid payload
