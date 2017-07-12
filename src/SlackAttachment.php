@@ -22,7 +22,8 @@ class SlackAttachment extends Attachment
      */
     public function setMetadata(array $parameters) : Attachment
     {
-        $this->parameters[self::name] = json_encode([$parameters]);
+        $parameters[self::name] =  json_encode([$parameters[self::name]]);
+        $this->parameters = $parameters;
         return $this;
     }
 
