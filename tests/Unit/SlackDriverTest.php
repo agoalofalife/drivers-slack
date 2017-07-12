@@ -33,7 +33,7 @@ class SlackDriverTest extends TestCase
         $this->guzzle = $this->mock(Client::class);
 
         $this->driver = new SlackDriver($this->guzzle);
-        $this->driver->fill($this->parameters = ['token' => Str::random()], new Request($this->factoryTypeRequest(), []));
+        $this->driver->fill($this->parameters = [], new Request($this->factoryTypeRequest(), []));
     }
 
 
@@ -114,6 +114,16 @@ class SlackDriverTest extends TestCase
     {
         $this->driver->fill($this->parameters = ['token' => Str::random()], new Request(['type' => 'url_verification'], []));
         $this->assertTrue($this->driver->isVerificationRequest());
+    }
+
+    public function test_verifyWebhook()
+    {
+        $token = $this->faker()->uuid;
+        $challenge = $this->faker()->word;
+
+        $this->driver->fill($this->parameters = ['verify_token' => $token], new Request(['token' => $token, 'challenge' => $challenge], []));
+
+        $this->assertEquals($challenge, $this->driver->verifyWebhook());
     }
 //    /**
 //     * @expectedException \FondBot\Drivers\Exceptions\InvalidRequest
