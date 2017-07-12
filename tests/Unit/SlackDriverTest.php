@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use FondBot\Drivers\ReceivedMessage;
+use FondBot\Drivers\Slack\SlackCommandHandler;
 use FondBot\Drivers\Slack\SlackDriver;
 use Psr\Http\Message\MessageInterface;
 use Tests\TestCase;
@@ -95,6 +96,11 @@ class SlackDriverTest extends TestCase
     public function test_getTemplateCompiler()
     {
         $this->assertNull($this->driver->getTemplateCompiler());
+    }
+
+    public function test_getCommandHandler()
+    {
+        $this->assertInstanceOf(SlackCommandHandler::class, $this->driver->getCommandHandler());
     }
 
 //    /**
