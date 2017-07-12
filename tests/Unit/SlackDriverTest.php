@@ -92,6 +92,11 @@ class SlackDriverTest extends TestCase
         $this->driver->mapDriver($this->faker()->name);
     }
 
+    public function test_getTemplateCompiler()
+    {
+        $this->assertNull($this->driver->getTemplateCompiler());
+    }
+
 //    /**
 //     * @expectedException \FondBot\Drivers\Exceptions\InvalidRequest
 //     * @expectedExceptionMessage Invalid payload
