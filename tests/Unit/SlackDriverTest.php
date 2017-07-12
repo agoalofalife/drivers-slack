@@ -6,6 +6,7 @@ namespace Tests\Unit;
 
 use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\Slack\SlackDriver;
+use Psr\Http\Message\MessageInterface;
 use Tests\TestCase;
 use GuzzleHttp\Client;
 use FondBot\Helpers\Str;
@@ -47,13 +48,30 @@ class SlackDriverTest extends TestCase
     public function test_getUser()
     {
         $this->guzzle->shouldReceive('get')
-             ->with($this->driver->getBaseUrl() . $this->driver
-             ->mapDriver('infoAboutUser'), \Mockery::type('array'))
-             ->once()
-             ->andReturn($this->factoryUserInfo());
+                     ->with($this->driver->getBaseUrl() . $this->driver
+                     ->mapDriver('infoAboutUser'), \Mockery::type('array'))
+                     ->once()->andReturnSelf();
 
+        $this->guzzle->shouldReceive('getBody')->once()->andReturn($this->factoryUserInfo(['ok' => true]));
 
+        $this->driver->verifyRequest();
+        $this->assertInstanceOf(User::class, $this->driver->getUser());
     }
+
+    public function test_getUser_Exception()
+    {
+        $error = $this->faker()->text();
+        $this->guzzle->shouldReceive('get')
+            ->with($this->driver->getBaseUrl() . $this->driver
+                    ->mapDriver('infoAboutUser'), \Mockery::type('array'))
+            ->once()->andReturnSelf();
+
+        $this->guzzle->shouldReceive('getBody')->once()->andReturn($this->factoryUserInfo(['ok' => false, 'error' => $error]));
+        $this->driver->verifyRequest();
+        $this->expectException(\Exception::class);
+        $this->driver->getUser();
+    }
+
     public function test_getMessage()
     {
         $this->driver->verifyRequest();

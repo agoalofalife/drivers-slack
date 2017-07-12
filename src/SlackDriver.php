@@ -49,6 +49,7 @@ class SlackDriver extends Driver implements WebhookVerification
     /**
      * Get user.
      *
+     * @link https://api.slack.com/methods/users.info
      * @return User
      * @throws \Exception
      */
