@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use FondBot\Drivers\Chat;
+use FondBot\Drivers\Exceptions\InvalidRequest;
 use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\Slack\SlackCommandHandler;
 use FondBot\Drivers\Slack\SlackDriver;
@@ -117,6 +118,16 @@ class SlackDriverTest extends TestCase
 
         $this->driver->fill($this->parameters = ['verify_token' => $token], new Request(['token' => $token, 'challenge' => $challenge], []));
 
+        $this->assertEquals($challenge, $this->driver->verifyWebhook());
+    }
+
+    public function test_verifyWebhook_exception()
+    {
+        $token = $this->faker()->uuid;
+        $challenge = $this->faker()->word;
+
+        $this->driver->fill($this->parameters = ['verify_token' => ''], new Request(['token' => $token, 'challenge' => $challenge], []));
+        $this->expectException(InvalidRequest::class);
         $this->assertEquals($challenge, $this->driver->verifyWebhook());
     }
 }

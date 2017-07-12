@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use FondBot\Drivers\Commands\SendAttachment;
+use FondBot\Drivers\Commands\SendRequest;
 use FondBot\Drivers\Slack\SlackCommandHandler;
 use FondBot\Templates\Attachment;
 use Tests\TestCase;
@@ -71,4 +72,9 @@ class SlackCommandHandlerTest extends TestCase
         (new SlackCommandHandler($this->driver))->handle($command);
     }
 
+    public function test_handleSendRequest() : void
+    {
+        $command    = new SendRequest($this->chat, $this->user, 'some');
+        (new SlackCommandHandler($this->driver))->handle($command);
+    }
 }
