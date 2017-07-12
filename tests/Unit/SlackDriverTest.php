@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use FondBot\Drivers\Chat;
 use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\Slack\SlackCommandHandler;
 use FondBot\Drivers\Slack\SlackDriver;
@@ -103,6 +104,11 @@ class SlackDriverTest extends TestCase
         $this->assertInstanceOf(SlackCommandHandler::class, $this->driver->getCommandHandler());
     }
 
+    public function test_getChat()
+    {
+        $this->driver->verifyRequest();
+        $this->assertInstanceOf(Chat::class, $this->driver->getChat());
+    }
 //    /**
 //     * @expectedException \FondBot\Drivers\Exceptions\InvalidRequest
 //     * @expectedExceptionMessage Invalid payload
