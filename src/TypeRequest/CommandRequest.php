@@ -55,6 +55,6 @@ class CommandRequest implements TypeRequest
      */
     public function getText() : ?string
     {
-        $this->request->getParameter('command');
+        return $this->request->getParameter('command');
     }
 }
