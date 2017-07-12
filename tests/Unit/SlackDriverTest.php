@@ -109,6 +109,12 @@ class SlackDriverTest extends TestCase
         $this->driver->verifyRequest();
         $this->assertInstanceOf(Chat::class, $this->driver->getChat());
     }
+
+    public function test_isVerificationRequest()
+    {
+        $this->driver->fill($this->parameters = ['token' => Str::random()], new Request(['type' => 'url_verification'], []));
+        $this->assertTrue($this->driver->isVerificationRequest());
+    }
 //    /**
 //     * @expectedException \FondBot\Drivers\Exceptions\InvalidRequest
 //     * @expectedExceptionMessage Invalid payload
