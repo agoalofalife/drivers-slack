@@ -39,7 +39,14 @@ class SlackDriverTest extends TestCase
 
     public function test_verifyRequest()
     {
-        $this->driver->verifyRequest();
+        $types = $this->factoryTypeRequest(true);
+
+        foreach ($types as $type)
+        {
+            $this->driver->fill($this->parameters = ['verify_token' => 'test'], new Request($type, []));
+            $this->driver->verifyRequest();
+        }
+
     }
 
     public function test_getUser()

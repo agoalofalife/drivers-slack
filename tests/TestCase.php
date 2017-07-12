@@ -40,18 +40,34 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return $this->guzzle ?? $this->mock(Client::class);
     }
 
-    protected function factoryTypeRequest() : array
+    protected function factoryTypeRequest($mode = false) : array
     {
         $faker = $this->faker();
+        $arguments =  [
+                 0 => [
+                'type' => $faker->word,
+                'event' => [
+                    'user' => (string) $faker->randomDigit,
+                    'text' => $faker->text,
+                    'channel' => $faker->randomLetter,
 
-        return [
-          'type' => $faker->word,
-            'event' => [
-                'user' => (string) $faker->randomDigit,
-                'text' => $faker->text,
-                'channel' => $faker->randomLetter
-            ]
+                ]],
+                1 => [
+                    'user_id' => $faker->word,
+                    'channel_id' => $faker->randomLetter,
+                    'command' => $faker->text,
+                    'text' => $faker->text
+                ],
+                2 => [
+                    'payload' => '{"actions":[{"value":"test"}], "token": "test"}'
+                ]
         ];
+        if ($mode === false) {
+            return $arguments[0];
+        } else{
+            return $arguments;
+        }
+
     }
 
     /**
