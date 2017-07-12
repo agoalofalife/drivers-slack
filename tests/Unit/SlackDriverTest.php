@@ -31,7 +31,6 @@ class SlackDriverTest extends TestCase
         $this->driver->fill($this->parameters = [], new Request($this->factoryTypeRequest(), []));
     }
 
-
     public function test_getBaseUrl()
     {
         $this->assertEquals('https://slack.com/api/', $this->driver->getBaseUrl());
