@@ -1,25 +1,23 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Tests\Unit\TypeRequest;
-
 use FondBot\Drivers\Exceptions\InvalidRequest;
 use FondBot\Drivers\Slack\SlackDriver;
-use FondBot\Drivers\Slack\TypeRequest\CommandRequest;
+use FondBot\Drivers\Slack\TypeRequest\EventRequest;
 use Tests\TestCase;
 use FondBot\Http\Request as HttpRequest;
 
 /**
- * Class CommandRequestTest
+ * Class EventRequestTest
  * @package Tests\Unit\TypeRequest
  */
-class CommandRequestTest extends TestCase
+class EventRequestTest extends TestCase
 {
     /**
-     * @var CommandRequest
+     * @var EventRequest
      */
-    protected $commandRequest;
+    protected $eventRequest;
 
     /**
      * @var HttpRequest
@@ -29,20 +27,22 @@ class CommandRequestTest extends TestCase
     public function setUp()
     {
         $this->request        = $this->mock(HttpRequest::class);
-        $this->commandRequest = new CommandRequest($this->request);
+        $this->eventRequest = new EventRequest($this->request);
     }
 
     public function test_getUserId()
     {
-        $this->request->shouldReceive('getParameter')->once()->with('user_id')->andReturn($this->faker()->word);
-        $this->commandRequest->getUserId();
+        $this->request->shouldReceive('getParameter')->once()->with('event.user')->andReturn($this->faker()->word);
+        $this->eventRequest->getUserId();
     }
 
     public function test_getChatId()
     {
-        $string = ['channel_id' => $this->faker()->word];
+        $string = ['event' => [
+            'channel' => $this->faker()->word
+        ]];
         $this->request->shouldReceive('getParameters')->once()->andReturn($string);
-        $this->commandRequest->getChatId();
+        $this->eventRequest->getChatId();
     }
 
     public function test_verifyRequest()
@@ -52,7 +52,7 @@ class CommandRequestTest extends TestCase
 
         $this->request->shouldReceive('getParameter')->once()->with('token')->andReturn($token);
         $driver->shouldReceive('getParameter')->once()->with('verify_token')->andReturn($token);
-        $this->commandRequest->verifyRequest($driver);
+        $this->eventRequest->verifyRequest($driver);
     }
 
     public function test_verifyRequest_exception()
@@ -63,12 +63,12 @@ class CommandRequestTest extends TestCase
         $driver->shouldReceive('getParameter')->once()->with('verify_token')->andReturn('some');
         $this->expectException(InvalidRequest::class);
         $this->expectExceptionMessage('Invalid verify token');
-        $this->commandRequest->verifyRequest($driver);
+        $this->eventRequest->verifyRequest($driver);
     }
 
     public function test_getText()
     {
-        $this->request->shouldReceive('getParameter')->with('command')->once()->andReturn($this->faker()->word);
-        $this->commandRequest->getText();
+        $this->request->shouldReceive('getParameter')->with('event.text')->once()->andReturn($this->faker()->word);
+        $this->eventRequest->getText();
     }
 }
