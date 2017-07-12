@@ -184,36 +184,36 @@ class SlackDriver extends Driver implements WebhookVerification
     }
 
     /**
-     * @param HttpRequest $request
      * @return TypeRequest
      * @throws InvalidRequest
+     * @internal param HttpRequest $request
      */
-    private function factoryTypeRequest(HttpRequest $request) : TypeRequest
+    private function factoryTypeRequest() : TypeRequest
     {
 
-        if ($request->hasParameters(['type', 'event.user', 'event.text', 'event.channel']))
+        if ($this->request->hasParameters(['type', 'event.user', 'event.text', 'event.channel']))
         {
-            return new EventRequest($request);
+            return new EventRequest($this->request);
         }
 
-        if ($request->hasParameters(['channel_id', 'text', 'user_id']))
+        if ($this->request->hasParameters(['channel_id', 'text', 'user_id']))
         {
-           return  new CommandRequest($request);
+           return  new CommandRequest($this->request);
         }
 
-        if ($request->hasParameters(['payload']))
+        if ($this->request->hasParameters(['payload']))
         {
-            $data = json_decode($request->getParameter('payload'), true);
+            $data = json_decode($this->request->getParameter('payload'), true);
 
             if (isset($data['actions'][0]['value']))
             {
-                return new ResponseButtonRequest($request);
+                return new ResponseButtonRequest($this->request);
             }
 
             if (isset($data['actions'][0]['selected_options']))
             {
 
-                return new ResponseMenuRequest($request);
+                return new ResponseMenuRequest($this->request);
             }
         }
         throw new InvalidRequest('Invalid type request');

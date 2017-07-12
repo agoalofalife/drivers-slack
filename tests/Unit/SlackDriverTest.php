@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\Slack\SlackDriver;
 use Tests\TestCase;
 use GuzzleHttp\Client;
@@ -18,7 +19,7 @@ use FondBot\Drivers\Slack\SlackReceivedMessage;
 /**
  * @property mixed|\Mockery\Mock|\Mockery\MockInterface $guzzle
  * @property array                                      $parameters
- * @property TelegramDriver                             $driver
+ * @property SlackDriver                             $driver
  */
 class SlackDriverTest extends TestCase
 {
@@ -29,17 +30,34 @@ class SlackDriverTest extends TestCase
         $this->guzzle = $this->mock(Client::class);
 
         $this->driver = new SlackDriver($this->guzzle);
-        $this->driver->fill($this->parameters = ['token' => Str::random()], new Request([], []));
+        $this->driver->fill($this->parameters = ['token' => Str::random()], new Request($this->factoryTypeRequest(), []));
     }
 
-    /**
-     * @expectedException \FondBot\Drivers\Exceptions\InvalidRequest
-     * @expectedExceptionMessage Invalid payload
-     */
-    public function test_verifyRequest_empty_message(): void
+
+    public function test_getBaseUrl()
+    {
+        $this->assertEquals('https://slack.com/api/', $this->driver->getBaseUrl());
+    }
+
+    public function test_verifyRequest()
     {
         $this->driver->verifyRequest();
     }
+
+    public function test_getMessage()
+    {
+        $this->driver->verifyRequest();
+        $this->assertInstanceOf(ReceivedMessage::class,  $this->driver->getMessage());
+    }
+
+//    /**
+//     * @expectedException \FondBot\Drivers\Exceptions\InvalidRequest
+//     * @expectedExceptionMessage Invalid payload
+//     */
+//    public function test_verifyRequest_empty_message(): void
+//    {
+//        $this->driver->verifyRequest();
+//    }
 //
 //    /**
 //     * @expectedException \FondBot\Drivers\Exceptions\InvalidRequest

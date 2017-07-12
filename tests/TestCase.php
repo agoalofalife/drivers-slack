@@ -31,4 +31,18 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     {
         return Mockery::mock($class);
     }
+
+    protected function factoryTypeRequest() : array
+    {
+        $faker = $this->faker();
+
+        return [
+          'type' => $faker->word,
+            'event' => [
+                'user' => $faker->userName,
+                'text' => $faker->text,
+                'channel' => $faker->randomLetter
+            ]
+        ];
+    }
 }
