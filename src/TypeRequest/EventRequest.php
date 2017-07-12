@@ -51,4 +51,14 @@ class EventRequest implements TypeRequest
             throw new InvalidRequest('Invalid verify token');
         }
     }
+
+    /**
+     * Get parameters
+     *
+     * @return array
+     */
+    public function getParameters(): array
+    {
+        return $this->request->getParameters();
+    }
 }

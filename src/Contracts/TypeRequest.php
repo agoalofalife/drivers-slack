@@ -27,4 +27,10 @@ interface TypeRequest
      * @internal param HttpRequest $request
      */
     public function verifyRequest(SlackDriver $driver): void;
+
+    /**
+     * Get parameters
+     * @return array
+     */
+    public function getParameters() : array;
 }

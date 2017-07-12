@@ -8,14 +8,18 @@ use GuzzleHttp\Client;
 use FondBot\Templates\Location;
 use FondBot\Templates\Attachment;
 use FondBot\Drivers\ReceivedMessage;
+use FondBot\Http\Request as HttpRequest;
 
 
 class SlackReceivedMessage implements ReceivedMessage
 {
     private $guzzle;
+    /**
+     * @var HttpRequest
+     */
     private $payload;
 
-    public function __construct(Client $guzzle, $payload)
+    public function __construct(Client $guzzle, HttpRequest $payload)
     {
         $this->guzzle  = $guzzle;
         $this->payload = $payload;
@@ -28,8 +32,7 @@ class SlackReceivedMessage implements ReceivedMessage
      */
     public function getText(): ?string
     {
-//        $string = $this->payload['payload']['callback_id'];
-        return $this->payload['event']['text'] ?? $this->payload['command'] ?? json_decode((string)$this->payload)['payload']['actions']['value'];
+        return $this->payload['event']['text'] ?? $this->payload['command'] ?? json_decode($this->payload->getParameter('payload'), true)['actions'][0]['value'];
     }
 
     /**
