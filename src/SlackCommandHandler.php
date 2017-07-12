@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Slack;
 
-use FondBot\Templates\Attachment;
 use FondBot\Drivers\CommandHandler;
 use FondBot\Drivers\Commands\SendMessage;
 use FondBot\Drivers\Commands\SendRequest;
 use FondBot\Drivers\Commands\SendAttachment;
 
+/**
+ * Class SlackCommandHandler
+ * @package FondBot\Drivers\Slack
+ */
 class SlackCommandHandler extends CommandHandler
 {
     /** @var SlackDriver */
