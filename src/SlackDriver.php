@@ -42,7 +42,7 @@ class SlackDriver extends Driver implements WebhookVerification
     public function verifyRequest(): void
     {
         $this->concreteRequest = $this->factoryTypeRequest($this->request);
-        $this->concreteRequest->verifyRequest($this->request, $this);
+        $this->concreteRequest->verifyRequest($this);
     }
 
 
