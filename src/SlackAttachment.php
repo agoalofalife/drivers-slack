@@ -6,6 +6,11 @@ namespace FondBot\Drivers\Slack;
 
 use FondBot\Templates\Attachment;
 
+/**
+ * Class SlackAttachment
+ *
+ * @package FondBot\Drivers\Slack
+ */
 class SlackAttachment extends Attachment
 {
     private const name = 'attachments';

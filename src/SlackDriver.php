@@ -10,6 +10,7 @@ use FondBot\Drivers\Slack\Contracts\TypeRequest;
 use FondBot\Drivers\Slack\TypeRequest\CommandRequest;
 use FondBot\Drivers\Slack\TypeRequest\EventRequest;
 use FondBot\Drivers\Slack\TypeRequest\ResponseButtonRequest;
+use FondBot\Drivers\Slack\TypeRequest\ResponseMenuRequest;
 use FondBot\Drivers\User;
 use FondBot\Drivers\Driver;
 use FondBot\Drivers\CommandHandler;
@@ -134,7 +135,7 @@ class SlackDriver extends Driver implements WebhookVerification
      */
     public function getTemplateCompiler(): ?TemplateCompiler
     {
-        return new SlackTemplateCompiler();
+        return null;
     }
 
     /**
@@ -203,7 +204,17 @@ class SlackDriver extends Driver implements WebhookVerification
 
         if ($request->hasParameters(['payload']))
         {
-            return new ResponseButtonRequest($request);
+            $data = json_decode($request->getParameter('payload'), true);
+
+            if (isset($data['actions'][0]['value']))
+            {
+                return new ResponseButtonRequest($request);
+            }
+            if (isset($data['actions'][0]['selected_options']))
+            {
+
+                return new ResponseMenuRequest($request);
+            }
         }
         throw new InvalidRequest('Invalid type request');
     }
