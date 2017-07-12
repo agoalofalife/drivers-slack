@@ -4,28 +4,27 @@ declare(strict_types=1);
 namespace FondBot\Drivers\Slack\Contracts;
 
 use FondBot\Drivers\Slack\SlackDriver;
-use FondBot\Http\Request as HttpRequest;
 
 interface TypeRequest
 {
     /**
-     * @param HttpRequest $request
      * @return string
+     * @internal param HttpRequest $request
      */
-    public function getUserId(HttpRequest $request) : string;
+    public function getUserId() : string;
 
     /**
-     * @param HttpRequest $request
      * @return string
+     * @internal param HttpRequest $request
      */
-    public function getChatId(HttpRequest $request) : string;
+    public function getChatId() : string;
 
     /**
      * Verify incoming request data.
      *
-     * @param HttpRequest $request
      * @param SlackDriver $driver
      * @return void
+     * @internal param HttpRequest $request
      */
-    public function verifyRequest(HttpRequest $request, SlackDriver $driver): void;
+    public function verifyRequest(SlackDriver $driver): void;
 }

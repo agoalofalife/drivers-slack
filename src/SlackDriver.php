@@ -190,6 +190,7 @@ class SlackDriver extends Driver implements WebhookVerification
      */
     private function factoryTypeRequest(HttpRequest $request) : TypeRequest
     {
+        file_put_contents(path(). 'file.txt', gettype($request->getParameters()['payload']));
         if ($request->hasParameters(['type', 'event.user', 'event.text', 'event.channel']))
         {
             return new EventRequest();

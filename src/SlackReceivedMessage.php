@@ -28,7 +28,7 @@ class SlackReceivedMessage implements ReceivedMessage
      */
     public function getText(): ?string
     {
-        $string = $this->payload['payload']['callback_id'];
+//        $string = $this->payload['payload']['callback_id'];
         return $this->payload['event']['text'] ?? $this->payload['command'] ?? json_decode((string)$this->payload)['payload']['actions']['value'];
     }
 

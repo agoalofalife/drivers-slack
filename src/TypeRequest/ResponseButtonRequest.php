@@ -11,38 +11,44 @@ use FondBot\Http\Request as HttpRequest;
 
 class ResponseButtonRequest implements TypeRequest
 {
+    private $request;
+
+    public function __construct(HttpRequest $request)
+    {
+        $this->request = $request;
+    }
 
     /**
-     * @param HttpRequest $request
      * @return string
+     * @internal param HttpRequest $request
      */
-    public function getUserId(HttpRequest $request): string
+    public function getUserId(): string
     {
-        $response = json_decode($request->getParameter('payload'));
+        $response = json_decode($this->request->getParameter('payload'));
         return $response->user->id;
     }
 
     /**
-     * @param HttpRequest $request
      * @return string
+     * @internal param HttpRequest $request
      */
-    public function getChatId(HttpRequest $request): string
+    public function getChatId(): string
     {
-        $response = json_decode($request->getParameter('payload'));
+        $response = json_decode($this->request->getParameter('payload'));
         return  (string) $response->channel->id;
     }
 
     /**
      * Verify incoming request data.
      *
-     * @param HttpRequest $request
      * @param SlackDriver $driver
      * @return void
      * @throws InvalidRequest
+     * @internal param HttpRequest $request
      */
-    public function verifyRequest(HttpRequest $request, SlackDriver $driver): void
+    public function verifyRequest(SlackDriver $driver): void
     {
-        $response = json_decode($request->getParameter('payload'));
+        $response = json_decode($this->request->getParameter('payload'));
 
         if ( !$response->token == $driver->getParameter('verify_token') )
         {

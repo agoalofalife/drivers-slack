@@ -11,35 +11,42 @@ use FondBot\Http\Request as HttpRequest;
 
 class EventRequest implements TypeRequest
 {
-    /**
-     * @param HttpRequest $request
-     * @return string
-     */
-    public function getUserId(HttpRequest $request): string
+    private $request;
+
+    public function __construct(HttpRequest $request)
     {
-        return $request->getParameter('event.user');
+        $this->request = $request;
     }
 
     /**
-     * @param HttpRequest $request
      * @return string
+     * @internal param HttpRequest $request
      */
-    public function getChatId(HttpRequest $request): string
+    public function getUserId(): string
     {
-        return  (string) $request->getParameters()['event']['channel'];
+        return $this->request->getParameter('event.user');
+    }
+
+    /**
+     * @return string
+     * @internal param HttpRequest $request
+     */
+    public function getChatId(): string
+    {
+        return  (string) $this->request->getParameters()['event']['channel'];
     }
 
     /**
      * Verify incoming request data.
      *
-     * @param HttpRequest $request
      * @param SlackDriver $driver
      * @return void
      * @throws InvalidRequest
+     * @internal param HttpRequest $request
      */
-    public function verifyRequest(HttpRequest $request, SlackDriver $driver): void
+    public function verifyRequest(SlackDriver $driver): void
     {
-        if ( !$request->getParameter('token') == $driver->getParameter('verify_token') )
+        if ( !$this->request->getParameter('token') == $driver->getParameter('verify_token') )
         {
             throw new InvalidRequest('Invalid verify token');
         }
