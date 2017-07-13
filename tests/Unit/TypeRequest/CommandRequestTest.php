@@ -93,7 +93,7 @@ class CommandRequestTest extends TestCase
         $this->assertTrue($this->commandRequest->hasData());
     }
 
-    public function test_getData()
+    public function test_getData() : void
     {
         $string = $this->faker()->word;
         $this->request->shouldReceive('getParameter')->with('text')->once()->andReturn($string);

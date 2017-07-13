@@ -74,16 +74,6 @@ class ResponseMenuRequest implements TypeRequest, ReceivedMessage
     }
 
     /**
-     * Get parameters
-     *
-     * @return array
-     */
-    private function getParameters(): array
-    {
-        return json_decode($this->request->getParameter('payload'), true);
-    }
-
-    /**
      * @return string
      */
     public function getText(): string
@@ -139,5 +129,15 @@ class ResponseMenuRequest implements TypeRequest, ReceivedMessage
     public function getData(): ?string
     {
         return json_encode($this->getParameters()['actions']);
+    }
+
+    /**
+     * Get parameters
+     *
+     * @return array
+     */
+    private function getParameters(): array
+    {
+        return json_decode($this->request->getParameter('payload'), true);
     }
 }

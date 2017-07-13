@@ -25,20 +25,20 @@ class ResponseButtonRequestTest extends TestCase
      */
     protected $request;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->request        = $this->mock(HttpRequest::class);
         $this->responseButtonRequest = new ResponseButtonRequest($this->request);
     }
 
-    public function test_getUserId()
+    public function test_getUserId() : void
     {
         $json = '{"user" : {"id" : "1DA"}}';
         $this->request->shouldReceive('getParameter')->once()->with('payload')->andReturn($json);
         $this->responseButtonRequest->getUserId();
     }
 
-    public function test_getChatId()
+    public function test_getChatId() : void
     {
         $json = '{"channel" : {"id" : "1DA"}}';
         $this->request->shouldReceive('getParameter')->once()->with('payload')->andReturn($json);
@@ -46,7 +46,7 @@ class ResponseButtonRequestTest extends TestCase
     }
 
 
-    public function test_verifyRequest()
+    public function test_verifyRequest() : void
     {
         $json = '{"token" : "sx"}';
         $token   = $this->faker()->word;
@@ -56,7 +56,7 @@ class ResponseButtonRequestTest extends TestCase
         $this->responseButtonRequest->verifyRequest($driver);
     }
 
-    public function test_verifyRequest_exception()
+    public function test_verifyRequest_exception() : void
     {
         $json    = '{"token" : "sx"}';
         $driver  = $this->mock(SlackDriver::class);
@@ -66,11 +66,40 @@ class ResponseButtonRequestTest extends TestCase
         $this->responseButtonRequest->verifyRequest($driver);
     }
 
-    public function test_getText()
+    public function test_getText() : void
     {
         $driver  = $this->mock(SlackDriver::class);
         $json    = '{"actions" : [{ "value" : "as"}]}';
         $this->request->shouldReceive('getParameter')->once()->with('payload')->andReturn($json);
         $this->responseButtonRequest->getText($driver);
+    }
+
+    public function test_getLocation() : void
+    {
+        $this->assertNull($this->responseButtonRequest->getLocation());
+    }
+
+    public function test_hasAttachment() : void
+    {
+        $this->assertFalse($this->responseButtonRequest->hasAttachment());
+    }
+
+    public function test_getAttachment() : void
+    {
+        $this->assertNull($this->responseButtonRequest->getAttachment());
+    }
+
+    public function test_hasData() : void
+    {
+        $json    = '{"token" : "sx"}';
+        $this->request->shouldReceive('getParameter')->once()->with('payload')->andReturn($json);
+        $this->assertFalse($this->responseButtonRequest->hasData());
+    }
+
+    public function test_getData()
+    {
+        $json    = '{"actions" : "sx"}';
+        $this->request->shouldReceive('getParameter')->once()->with('payload')->andReturn($json);
+        $this->responseButtonRequest->getData();
     }
 }
