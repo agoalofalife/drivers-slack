@@ -31,9 +31,9 @@ class SlackCommandHandler extends CommandHandler
         ];
 
         if ($command->getTemplate() !== null) {
-            file_put_contents(path(). 'file.txt', json_encode($this->driver->getTemplateCompiler()->compile($command->getTemplate())));
             $payload['attachments'] = $this->driver->getTemplateCompiler()->compile($command->getTemplate());
         }
+
         $payload   = array_merge($payload, [
             'token'   => $this->driver->getParameter('token')
         ]);

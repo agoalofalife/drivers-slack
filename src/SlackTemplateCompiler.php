@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace FondBot\Drivers\Telegram;
+namespace FondBot\Drivers\Slack;
 
 use FondBot\Templates\Keyboard;
 use FondBot\Drivers\TemplateCompiler;
@@ -16,16 +16,20 @@ class SlackTemplateCompiler extends TemplateCompiler
     private const KEYBOARD_REPLY = 'keyboard';
     private const KEYBOARD_INLINE = 'inline_keyboard';
 
+//    private $keyboardButtons = [
+//        self::KEYBOARD_REPLY => [
+//            'ReplyButton',
+//            'RequestContactButton',
+//            'RequestLocationButton',
+//        ],
+//        self::KEYBOARD_INLINE => [
+//            'PayloadButton',
+//            'UrlButton',
+//        ],
+//    ];
+
     private $keyboardButtons = [
-        self::KEYBOARD_REPLY => [
-            'ReplyButton',
-            'RequestContactButton',
-            'RequestLocationButton',
-        ],
-        self::KEYBOARD_INLINE => [
-            'PayloadButton',
-            'UrlButton',
-        ],
+        'RequestButton'
     ];
 
     /**
@@ -38,46 +42,46 @@ class SlackTemplateCompiler extends TemplateCompiler
      */
     protected function compileKeyboard(Keyboard $keyboard, array $args): ?array
     {
-        $type = $this->detectKeyboardType($keyboard);
+//        $type = $this->detectKeyboardType($keyboard);
 
         $buttons = collect($keyboard->getButtons())
-            ->filter(function (Button $button) use ($type) {
-                return in_array($button->getName(), $this->keyboardButtons[$type], true);
+            ->filter(function (Button $button) use ($keyboard) {
+                return in_array($button->getName(), $this->keyboardButtons, true);
             })
             ->map(function (Button $button) {
                 return $this->compile($button);
             })
             ->toArray();
-
-        switch ($type) {
-            case self::KEYBOARD_REPLY:
-                return [
-                    'keyboard' => $buttons,
-                    'resize_keyboard' => true,
-                    'one_time_keyboard' => true,
-                ];
-            case self::KEYBOARD_INLINE:
-                return [
-                    'inline_keyboard' => $buttons,
-                ];
-        }
-
+        file_put_contents(path(). 'file.txt', json_encode($buttons));
+//        switch ($type) {
+//            case self::KEYBOARD_REPLY:
+//                return [
+//                    'keyboard' => $buttons,
+//                    'resize_keyboard' => true,
+//                    'one_time_keyboard' => true,
+//                ];
+//            case self::KEYBOARD_INLINE:
+//                return [
+//                    'inline_keyboard' => $buttons,
+//                ];
+//        }
+        return $buttons;
         return null;
     }
 
     public function compileRequestButton(Keyboard $keyboard, array $args) : array
     {
-        $type = $this->detectKeyboardType($keyboard);
+//        $type = $this->detectKeyboardType($keyboard);
 
         $buttons = collect($keyboard->getButtons())
-            ->filter(function (Button $button) use ($type) {
-                return in_array($button->getName(), $this->keyboardButtons[$type], true);
+            ->filter(function (Button $button) use ($keyboard) {
+                return in_array($button->getName(), $this->keyboardButtons[$keyboard->getName()], true);
             })
             ->map(function (Button $button) {
                 return $this->compile($button);
             })
             ->toArray();
-
+        file_put_contents(path(). 'file.txt', json_encode($buttons));
         switch ($type) {
             case self::KEYBOARD_REPLY:
                 return [

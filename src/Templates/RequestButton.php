@@ -21,14 +21,7 @@ class RequestButton extends Button implements Arrayable
     public function toArray(): array
     {
         return
-            [
-                       "attachments"=> [
-            "text"=> "Choose a game to play",
-            "fallback"=> "You are unable to choose a game",
-            "callback_id"=> "wopr_game",
-            "color"=> "#3AA3E3",
-            "attachment_type"=> "default",
-            "actions"=> [
+            [ "actions"=> [
                 [
                     "name"=> "game",
                     "text"=> "Chess",
@@ -54,9 +47,7 @@ class RequestButton extends Button implements Arrayable
                         "dismiss_text"=> "No",
                     ]
                 ]
-            ]
-    ]
-        ];
+            ] ];
     }
     /**
      * Get name.

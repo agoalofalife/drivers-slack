@@ -11,7 +11,6 @@ use FondBot\Drivers\Slack\TypeRequest\CommandRequest;
 use FondBot\Drivers\Slack\TypeRequest\EventRequest;
 use FondBot\Drivers\Slack\TypeRequest\ResponseButtonRequest;
 use FondBot\Drivers\Slack\TypeRequest\ResponseMenuRequest;
-use FondBot\Drivers\Telegram\SlackTemplateCompiler;
 use FondBot\Drivers\User;
 use FondBot\Drivers\Driver;
 use FondBot\Drivers\CommandHandler;
