@@ -40,7 +40,6 @@ class SlackCommandHandler extends CommandHandler
 //                ],
 //                $this->driver->getTemplateCompiler()->compile($command->getTemplate()))]);
             $payload = array_merge($payload, $this->driver->getTemplateCompiler()->compile($command->getTemplate()));
-
         }
 
         $payload   = array_merge($payload, [
@@ -50,7 +49,7 @@ class SlackCommandHandler extends CommandHandler
         $r = $this->driver->getHttp()->post($this->driver->getBaseUrl() . $this->driver->mapDriver('postMessage'), [
             'query' => $payload,
         ]);
-        file_put_contents(path().'file.txt', $r->getBody()->getContents());
+//        file_put_contents(path().'file.txt', $r->getBody()->getContents());
 
     }
 

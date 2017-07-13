@@ -116,6 +116,7 @@ class RequestSelect implements Template, Arrayable
     public function addOption(array $option) : RequestSelect
     {
         $this->options[] = $option;
+        file_put_contents(path().'file.txt', json_encode( $this->options));
         return $this;
     }
 }
