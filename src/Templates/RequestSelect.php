@@ -57,7 +57,7 @@ class RequestSelect implements Template, Arrayable
                     "name"=> $this->name ?? 'default',
                     "text"=> $this->placeholder ?? 'Choose..',
                     "type"=> "select",
-                        'options' => $this->options
+                    'options' => $this->options
                     ]
                 ]
                 ]

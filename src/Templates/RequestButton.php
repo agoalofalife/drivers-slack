@@ -28,21 +28,56 @@ class RequestButton extends Button implements Arrayable
     private $buttonConfirm = null;
 
     /**
+     * @var string
+     */
+    private $text;
+    /**
      * Get the instance as an array.
      *
      * @return array
      */
     public function toArray(): array
     {
-        $prepare =   array_merge([
-            "callback_id" => bin2hex(random_bytes(5)),
-            "name"=> $this->label ?? 'acs',
-            "text"=> $this->label ?? 'asc',
-            "type"=> "button",
-            "value"=> $this->activator ?? $this->label ?? 'asx',
-            "style"=> $this->style,
+//        $prepare =   array_merge(
+//            [
+//            "callback_id" => bin2hex(random_bytes(5)),
+//            "attachment_type"=> "default",
+//            "style"=> $this->style,
+//            'actions' => [
+//                [
+//                    "name"=> $this->label ?? 'acs',
+//                    "text"=> $this->label ?? 'asc',
+//                    "value"=> $this->activator ?? $this->label ?? 'asx',
+//                ]
+//            ]
+//           ], is_null($this->buttonConfirm) ? [] : $this->buttonConfirm->toArray());
+        $actions  = array_merge(    [
+            "style" => $this->style,
+            "type"=>"button",
+            "name"=> $this->label ?? 'Default Name',
+            "text"=> $this->text ?? 'Default Name',
+            "value"=> $this->activator ?? $this->label ?? 'default',
         ], is_null($this->buttonConfirm) ? [] : $this->buttonConfirm->toArray());
-        return ['attachments' => json_encode([$prepare]) ];
+
+        return [
+            'attachments' => json_encode([
+            [
+            "text" => $this->text,
+            "callback_id" => bin2hex(random_bytes(5)),
+            "attachment_type" => "default",
+            'actions' => [$actions]
+//                [
+//                [
+//                    "style" => $this->style,
+//                    "type"=>"button",
+//                    "name"=> $this->label ?? 'Default Name',
+//                    "text"=> $this->label ?? 'Default Name',
+//                    "value"=> $this->activator ?? $this->label ?? 'default',
+//                ]
+//            ]
+            ]
+            ])
+        ];
     }
     /**
      * Get name.
@@ -85,6 +120,18 @@ class RequestButton extends Button implements Arrayable
     public function setConfirm(RequestConfirmButton $button) : RequestButton
     {
         $this->buttonConfirm = $button;
+        return $this;
+    }
+
+    /**
+     * Set text about button
+     *
+     * @param string $text
+     * @return RequestButton
+     */
+    public function setText(string $text) : RequestButton
+    {
+        $this->text = $text;
         return $this;
     }
 }
