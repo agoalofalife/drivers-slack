@@ -31,15 +31,54 @@ class SlackCommandHandler extends CommandHandler
         ];
 
         if ($command->getTemplate() !== null) {
-            $payload['attachments'] = $this->driver->getTemplateCompiler()->compile($command->getTemplate());
+            $payload['attachments'] = json_encode([array_merge([
+                "text"=> "Choose a game to play",
+                "fallback"=> "You are unable to choose a game",
+                "callback_id"=> "wopr_game",
+                "color"=> "#3AA3E3",
+                "attachment_type"=> "default"], $this->driver->getTemplateCompiler()->compile($command->getTemplate()))]);
+//                $r = json_encode([[
+//            "text"=> "Choose a game to play",
+//            "fallback"=> "You are unable to choose a game",
+//            "callback_id"=> "wopr_game",
+//            "color"=> "#3AA3E3",
+//            "attachment_type"=> "default",
+//            "actions"=> [
+//                [
+//                    "name"=> "game",
+//                    "text"=> "Chess",
+//                    "type"=> "button",
+//                    "value"=> "recommend"
+//                ],
+//                [
+//                    "name"=> "game",
+//                    "text"=> "Falken's Maze",
+//                    "type"=> "button",
+//                    "value"=> "maze"
+//                ],
+//                [
+//                    "name"=> "game",
+//                    "text"=> "Thermonuclear War",
+//                    "style"=> "danger",
+//                    "type"=> "button",
+//                    "value"=> "war",
+//                    "confirm"=> [
+//                    "title"=> "Are you sure?",
+//                        "text"=> "Wouldn't you prefer a good game of chess?",
+//                        "ok_text"=> "Yes",
+//                        "dismiss_text"=> "No",
+//                    ]
+//                ]
+//            ]
+//    ]]);
         }
-
+        file_put_contents(path(). 'file.txt', json_encode($payload['attachments'] ));
         $payload   = array_merge($payload, [
             'token'   => $this->driver->getParameter('token')
         ]);
 
         $this->driver->getHttp()->post($this->driver->getBaseUrl() . $this->driver->mapDriver('postMessage'), [
-            'query' => $payload
+            'query' => $payload,
         ]);
     }
 

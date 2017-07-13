@@ -20,34 +20,12 @@ class RequestButton extends Button implements Arrayable
      */
     public function toArray(): array
     {
-        return
-            [ "actions"=> [
-                [
+        return [
                     "name"=> "game",
                     "text"=> "Chess",
                     "type"=> "button",
                     "value"=> "recommend"
-                ],
-                [
-                    "name"=> "game",
-                    "text"=> "Falken's Maze",
-                    "type"=> "button",
-                    "value"=> "maze"
-                ],
-                [
-                    "name"=> "game",
-                    "text"=> "Thermonuclear War",
-                    "style"=> "danger",
-                    "type"=> "button",
-                    "value"=> "war",
-                    "confirm"=> [
-                    "title"=> "Are you sure?",
-                        "text"=> "Wouldn't you prefer a good game of chess?",
-                        "ok_text"=> "Yes",
-                        "dismiss_text"=> "No",
-                    ]
-                ]
-            ] ];
+              ];
     }
     /**
      * Get name.

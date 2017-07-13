@@ -52,7 +52,9 @@ class SlackTemplateCompiler extends TemplateCompiler
                 return $this->compile($button);
             })
             ->toArray();
-        file_put_contents(path(). 'file.txt', json_encode($buttons));
+//        file_put_contents(path(). 'file.txt', json_encode([
+//            'actions' => $buttons,
+//        ]));
 //        switch ($type) {
 //            case self::KEYBOARD_REPLY:
 //                return [
@@ -61,11 +63,10 @@ class SlackTemplateCompiler extends TemplateCompiler
 //                    'one_time_keyboard' => true,
 //                ];
 //            case self::KEYBOARD_INLINE:
-//                return [
-//                    'inline_keyboard' => $buttons,
-//                ];
+                return [
+                    'actions' => $buttons,
+                ];
 //        }
-        return $buttons;
         return null;
     }
 
