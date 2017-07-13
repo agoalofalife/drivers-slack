@@ -33,14 +33,10 @@ class RequestButton extends Button implements Arrayable
                     "text"=> $this->label,
                     "type"=> "button",
                     "value"=> $this->activator ?? $this->label,
-                    "style"=> "danger",
-                    "confirm"=> [
-                   "title"=> "Are you sure?",
-                        "text"=> "Wouldn't you prefer a good game of chess?",
-                        "ok_text"=> "Yes",
-                        "dismiss_text"=>"No"
-                    ]
+                    "style"=> $this->style,
+
               ];
+
     }
     /**
      * Get name.
@@ -72,5 +68,10 @@ class RequestButton extends Button implements Arrayable
     {
         $this->style = $style;
         return $this;
+    }
+
+    public function setConfirm()
+    {
+
     }
 }
