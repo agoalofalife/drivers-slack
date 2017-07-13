@@ -20,7 +20,13 @@ class RequestButton extends Button implements Arrayable
     /**
      * @var string
      */
-    private $style;
+    private $style = 'danger';
+
+    /**
+     * @var RequestConfirmButton
+     */
+    private $buttonConfirm = null;
+
     /**
      * Get the instance as an array.
      *
@@ -28,15 +34,13 @@ class RequestButton extends Button implements Arrayable
      */
     public function toArray(): array
     {
-        return [
+        return array_merge([
                     "name"=> $this->label,
                     "text"=> $this->label,
                     "type"=> "button",
                     "value"=> $this->activator ?? $this->label,
                     "style"=> $this->style,
-
-              ];
-
+              ], is_null($this->buttonConfirm) ? [] : $this->buttonConfirm->toArray());
     }
     /**
      * Get name.
@@ -52,9 +56,9 @@ class RequestButton extends Button implements Arrayable
      * Set activator
      *
      * @param string|null $activator
-     * @return Button
+     * @return RequestButton
      */
-    public function setActivator(string $activator = null) : Button
+    public function setActivator(string $activator = null) : RequestButton
     {
         $this->activator = $activator;
         return $this;
@@ -62,16 +66,23 @@ class RequestButton extends Button implements Arrayable
 
     /**
      * @param string|null $style
-     * @return Button
+     * @return RequestButton
      */
-    public function setStyle(string $style = null) : Button
+    public function setStyle(string $style = null) : RequestButton
     {
         $this->style = $style;
         return $this;
     }
 
-    public function setConfirm()
+    /**
+     * Set confirm Button
+     *
+     * @param RequestConfirmButton $button
+     * @return RequestButton
+     */
+    public function setConfirm(RequestConfirmButton $button) : RequestButton
     {
-
+        $this->buttonConfirm = $button;
+        return $this;
     }
 }

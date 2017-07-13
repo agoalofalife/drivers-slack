@@ -43,7 +43,6 @@ class SlackTemplateCompiler extends TemplateCompiler
      */
     protected function compileKeyboard(Keyboard $keyboard, array $args): ?array
     {
-
         $buttons = collect($keyboard->getButtons())
             ->filter(function (Button $button) use ($keyboard) {
                 return in_array($button->getName(), $this->keyboardButtons, true);
@@ -52,10 +51,7 @@ class SlackTemplateCompiler extends TemplateCompiler
                 return $this->compile($button);
             })
             ->toArray();
-        
-//        file_put_contents(path(). 'file.txt', json_encode([
-//            'actions' => $buttons,
-//        ]));
+
 //        switch ($type) {
 //            case self::KEYBOARD_REPLY:
 //                return [
