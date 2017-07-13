@@ -13,6 +13,10 @@ use FondBot\Contracts\Arrayable;
  */
 class RequestSelect implements Template, Arrayable
 {
+    /**
+     * @var array
+     */
+    private $options = [];
 
     /**
      * Get the instance as an array.
@@ -21,13 +25,15 @@ class RequestSelect implements Template, Arrayable
      */
     public function toArray(): array
     {
-        return array_merge([
-            "name"=> $this->label,
-            "text"=> $this->label,
-            "type"=> "button",
-            "value"=> $this->activator ?? $this->label,
-            "style"=> $this->style,
-        ]);
+        return [
+            'attachment' => [
+            'type' => 'template',
+            'actions' => [
+               'options' => [
+                   $this->options
+               ]
+           ],
+      ]];
     }
 
     /**
@@ -38,5 +44,17 @@ class RequestSelect implements Template, Arrayable
     public function getName(): string
     {
         return 'RequestSelect';
+    }
+
+    /**
+     * Add new option in select
+     *
+     * @param array $option
+     * @return RequestSelect
+     */
+    public function addOption(array $option) : RequestSelect
+    {
+        $this->options[] = $option;
+        return $this;
     }
 }

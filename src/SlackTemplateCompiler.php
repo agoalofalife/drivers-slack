@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Slack;
 
+use FondBot\Drivers\Slack\Templates\RequestSelect;
 use FondBot\Templates\Keyboard;
 use FondBot\Drivers\TemplateCompiler;
 use FondBot\Templates\Keyboard\Button;
@@ -23,6 +24,7 @@ class SlackTemplateCompiler extends TemplateCompiler
     private $keyboardButtons = [
         'RequestButton'
     ];
+
 
     /**
      * Compile keyboard.
@@ -53,6 +55,15 @@ class SlackTemplateCompiler extends TemplateCompiler
         ];
     }
 
+    /**
+     * @param RequestSelect $requestSelect
+     * @param array         $args
+     * @return array|null
+     */
+    protected function compileRequestSelect(RequestSelect $requestSelect, array $args) : ?array
+    {
+        file_put_contents(path(). 'file.txt', 'I am inner');
+    }
     /**
      * Compile payload button.
      *
