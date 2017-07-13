@@ -12,6 +12,10 @@ use FondBot\Contracts\Arrayable;
  */
 class RequestButton extends Button implements Arrayable
 {
+    /**
+     * @var string
+     */
+    private $activator;
 
     /**
      * Get the instance as an array.
@@ -24,7 +28,7 @@ class RequestButton extends Button implements Arrayable
                     "name"=> $this->label,
                     "text"=> $this->label,
                     "type"=> "button",
-                    "value"=> $this->label
+                    "value"=> $this->activator ?? $this->label
               ];
     }
     /**
@@ -35,5 +39,16 @@ class RequestButton extends Button implements Arrayable
     public function getName(): string
     {
         return get_class($this);
+    }
+
+    /**
+     * Set activator
+     *
+     * @param string|null $activator
+     * @return string
+     */
+    public function setActivator(string $activator = null) : string
+    {
+        $this->activator = $activator;
     }
 }

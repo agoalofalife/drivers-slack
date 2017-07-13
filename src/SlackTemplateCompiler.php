@@ -14,8 +14,8 @@ use FondBot\Templates\Keyboard\PayloadButton;
 
 class SlackTemplateCompiler extends TemplateCompiler
 {
-    private const KEYBOARD_REPLY = 'keyboard';
-    private const KEYBOARD_INLINE = 'inline_keyboard';
+//    private const KEYBOARD_REPLY = 'keyboard';
+//    private const KEYBOARD_INLINE = 'inline_keyboard';
 
 //    private $keyboardButtons = [
 //        self::KEYBOARD_REPLY => [
@@ -52,6 +52,7 @@ class SlackTemplateCompiler extends TemplateCompiler
                 return $this->compile($button);
             })
             ->toArray();
+        
 //        file_put_contents(path(). 'file.txt', json_encode([
 //            'actions' => $buttons,
 //        ]));
