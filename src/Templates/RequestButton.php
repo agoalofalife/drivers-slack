@@ -20,7 +20,7 @@ class RequestButton extends Button implements Arrayable
     /**
      * @var string
      */
-    private $style = 'danger';
+    private $style = 'default';
 
     /**
      * @var RequestConfirmButton

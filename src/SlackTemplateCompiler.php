@@ -56,7 +56,7 @@ class SlackTemplateCompiler extends TemplateCompiler
             })
             ->toArray();
 
-        if (count($buttons))
+        if (!count($buttons))
         {
             return null;
         }
@@ -78,19 +78,6 @@ class SlackTemplateCompiler extends TemplateCompiler
                 return $this->compile($button);
             })
             ->toArray();
-        file_put_contents(path(). 'file.txt', json_encode($buttons));
-        switch ($type) {
-            case self::KEYBOARD_REPLY:
-                return [
-                    'keyboard' => $buttons,
-                    'resize_keyboard' => true,
-                    'one_time_keyboard' => true,
-                ];
-            case self::KEYBOARD_INLINE:
-                return [
-                    'inline_keyboard' => $buttons,
-                ];
-        }
 
     }
 
@@ -133,20 +120,20 @@ class SlackTemplateCompiler extends TemplateCompiler
         return [];
     }
 
-    /**
-     * Determine keyboard type by buttons.
-     *
-     * @param Keyboard $keyboard
-     * @return string
-     */
-    private function detectKeyboardType(Keyboard $keyboard): string
-    {
-        $button = collect($keyboard->getButtons())->first();
-
-        if ($button instanceof PayloadButton || $button instanceof UrlButton) {
-            return self::KEYBOARD_INLINE;
-        }
-
-        return self::KEYBOARD_REPLY;
-    }
+//    /**
+//     * Determine keyboard type by buttons.
+//     *
+//     * @param Keyboard $keyboard
+//     * @return string
+//     */
+//    private function detectKeyboardType(Keyboard $keyboard): string
+//    {
+//        $button = collect($keyboard->getButtons())->first();
+//
+//        if ($button instanceof PayloadButton || $button instanceof UrlButton) {
+//            return self::KEYBOARD_INLINE;
+//        }
+//
+//        return self::KEYBOARD_REPLY;
+//    }
 }
