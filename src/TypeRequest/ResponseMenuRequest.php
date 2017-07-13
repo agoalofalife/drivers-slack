@@ -9,6 +9,8 @@ use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\Slack\Contracts\TypeRequest;
 use FondBot\Drivers\Slack\SlackDriver;
 use FondBot\Http\Request as HttpRequest;
+use FondBot\Templates\Attachment;
+use FondBot\Templates\Location;
 
 /**
  * Class ResponseMenuRequest
@@ -40,7 +42,7 @@ class ResponseMenuRequest implements TypeRequest, ReceivedMessage
      * @internal param HttpRequest $request
      */
     public function getUserId(): string
-    {file_put_contents(path().'file.txt',$this->request->getParameters()['payload']);
+    {
         return $this->getParameters()['user']['id'];
     }
 
@@ -87,5 +89,55 @@ class ResponseMenuRequest implements TypeRequest, ReceivedMessage
     public function getText(): string
     {
         return $this->getParameters()['actions'][0]['selected_options'][0]['value'];
+    }
+
+    /**
+     * Get location.
+     *
+     * @return Location|null
+     */
+    public function getLocation(): ?Location
+    {
+        return null;
+    }
+
+    /**
+     * Determine if message has attachment.
+     *
+     * @return bool
+     */
+    public function hasAttachment(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Get attachment.
+     *
+     * @return Attachment|null
+     */
+    public function getAttachment(): ?Attachment
+    {
+        return null;
+    }
+
+    /**
+     * Determine if message has payload.
+     *
+     * @return bool
+     */
+    public function hasData(): bool
+    {
+        return isset($this->getParameters()['actions']);
+    }
+
+    /**
+     * Get payload.
+     *
+     * @return string|null
+     */
+    public function getData(): ?string
+    {
+        return json_encode($this->getParameters()['actions']);
     }
 }
