@@ -95,7 +95,7 @@ class ResponseMenuRequestTest extends TestCase
         $this->assertFalse($this->responseMenuRequest->hasData());
     }
 
-    public function test_getData()
+    public function test_getData() : void
     {
         $json    = '{"actions" : "sx"}';
         $this->request->shouldReceive('getParameter')->once()->with('payload')->andReturn($json);

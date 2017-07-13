@@ -19,7 +19,7 @@ class SlackAttachmentTest extends TestCase
     protected $attachment;
     protected $innerAttach;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->attachment = new SlackAttachment();
         $this->innerAttach = $this->faker()->words;
@@ -28,12 +28,12 @@ class SlackAttachmentTest extends TestCase
         $this->attachment->setMetadata($test);
     }
 
-    public function test_setMetadata()
+    public function test_setMetadata() : void
     {
         $this->assertEquals(['attachments' => json_encode([$this->innerAttach])], $this->attachment->getMetadata());
     }
 
-    public function test_getMetadata()
+    public function test_getMetadata() : void
     {
         $this->assertInternalType('array', $this->attachment->getMetadata());
     }
