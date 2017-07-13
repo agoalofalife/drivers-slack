@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace FondBot\Drivers\Slack;
@@ -12,6 +11,11 @@ use FondBot\Templates\Keyboard\UrlButton;
 use FondBot\Templates\Keyboard\ReplyButton;
 use FondBot\Templates\Keyboard\PayloadButton;
 
+/**
+ * Class SlackTemplateCompiler
+ *
+ * @package FondBot\Drivers\Slack
+ */
 class SlackTemplateCompiler extends TemplateCompiler
 {
 //    private const KEYBOARD_REPLY = 'keyboard';
@@ -52,19 +56,14 @@ class SlackTemplateCompiler extends TemplateCompiler
             })
             ->toArray();
 
-//        switch ($type) {
-//            case self::KEYBOARD_REPLY:
-//                return [
-//                    'keyboard' => $buttons,
-//                    'resize_keyboard' => true,
-//                    'one_time_keyboard' => true,
-//                ];
-//            case self::KEYBOARD_INLINE:
-                return [
-                    'actions' => $buttons,
-                ];
-//        }
-        return null;
+        if (count($buttons))
+        {
+            return null;
+        }
+
+        return [
+            'actions' => $buttons,
+        ];
     }
 
     public function compileRequestButton(Keyboard $keyboard, array $args) : array
