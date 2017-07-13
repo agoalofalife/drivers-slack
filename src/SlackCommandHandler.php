@@ -45,7 +45,7 @@ class SlackCommandHandler extends CommandHandler
         $payload   = array_merge($payload, [
             'token'   => $this->driver->getParameter('token')
         ]);
-        file_put_contents(path().'file.txt', json_encode($payload));
+//        file_put_contents(path().'file.txt', json_encode($payload));
         $r = $this->driver->getHttp()->post($this->driver->getBaseUrl() . $this->driver->mapDriver('postMessage'), [
             'query' => $payload,
         ]);
