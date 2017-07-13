@@ -42,8 +42,6 @@ class SlackTemplateCompiler extends TemplateCompiler
      */
     protected function compileKeyboard(Keyboard $keyboard, array $args): ?array
     {
-//        $type = $this->detectKeyboardType($keyboard);
-
         $buttons = collect($keyboard->getButtons())
             ->filter(function (Button $button) use ($keyboard) {
                 return in_array($button->getName(), $this->keyboardButtons, true);

@@ -21,10 +21,10 @@ class RequestButton extends Button implements Arrayable
     public function toArray(): array
     {
         return [
-                    "name"=> "game",
-                    "text"=> "Chess",
+                    "name"=> $this->label,
+                    "text"=> $this->label,
                     "type"=> "button",
-                    "value"=> "recommend"
+                    "value"=> $this->label
               ];
     }
     /**
