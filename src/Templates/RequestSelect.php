@@ -25,29 +25,31 @@ class RequestSelect implements Template, Arrayable
      */
     public function toArray(): array
     {
-//        return [
-//            'attachments' => json_encode([
-//                'type' => 'template',
-//                'actions' => [
-//                    "name"=>"games_list",
-//                    "text"=> "Pick a game...",
-//                    "type"=> "select",
-//                    [
-//                        'options' => [
-//                            $this->options
-//                        ]
-//                    ]
-//                ],
-//            ])
-//        ];
-
-
-            return
+        return [
+            "response_type" => "in_channel",
+            'attachments' => json_encode([
                 [
-                    "text"=> "Would you like to play a game?",
+                "text"=> "Choose a game to play",
+                'type' => 'template',
+                "callback_id"=> "game_selection",
+                'actions' => [
+                    [
+                    "name"=>"games_list",
+                    "text"=> "Pick a game...",
+                    "type"=> "select",
+                        'options' => [
+                            $this->options
+                        ]
+                    ]
+                ]
+                ]
+            ])
+        ];
+
+            return [
                     "response_type"=> "in_channel",
-                    "attachments" => [
-                    json_encode([
+                    "attachments" => json_encode([
+                    [
             "text"=> "Choose a game to play",
             "fallback"=> "If you could read this message, you'd be choosing something fun to do right now.",
             "color"=> "#3AA3E3",
@@ -90,8 +92,8 @@ class RequestSelect implements Template, Arrayable
                     ]
                 ]
             ]
-            ])
-                    ]
+            ]
+                    ])
                 ];
     }
 

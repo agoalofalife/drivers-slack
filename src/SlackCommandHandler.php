@@ -40,16 +40,18 @@ class SlackCommandHandler extends CommandHandler
 //                ],
 //                $this->driver->getTemplateCompiler()->compile($command->getTemplate()))]);
             $payload = array_merge($payload, $this->driver->getTemplateCompiler()->compile($command->getTemplate()));
-            file_put_contents(path().'file.txt', json_encode($payload));
+
         }
 
         $payload   = array_merge($payload, [
             'token'   => $this->driver->getParameter('token')
         ]);
 
-        $this->driver->getHttp()->post($this->driver->getBaseUrl() . $this->driver->mapDriver('postMessage'), [
+        $r = $this->driver->getHttp()->post($this->driver->getBaseUrl() . $this->driver->mapDriver('postMessage'), [
             'query' => $payload,
         ]);
+        file_put_contents(path().'file.txt', $r->getBody()->getContents());
+
     }
 
     /**
