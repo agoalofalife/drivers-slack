@@ -19,6 +19,21 @@ class RequestSelect implements Template, Arrayable
     private $options = [];
 
     /**
+     * @var string
+     */
+    private $text;
+
+    /**
+     * @var string
+     */
+    private $placeholder;
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
      * Get the instance as an array.
      *
      * @return array
@@ -29,72 +44,20 @@ class RequestSelect implements Template, Arrayable
             "response_type" => "in_channel",
             'attachments' => json_encode([
                 [
-                "text"=> "Choose a game to play",
+                "text" => $this->text ?? '',
                 'type' => 'template',
-                "callback_id"=> "game_selection",
+                "callback_id" => "game_selection",
                 'actions' => [
                     [
-                    "name"=>"games_list",
-                    "text"=> "Pick a game...",
+                    "name"=> $this->name ?? 'default',
+                    "text"=> $this->placeholder ?? 'Choose..',
                     "type"=> "select",
-                        'options' => [
-                            $this->options
-                        ]
+                        'options' => $this->options
                     ]
                 ]
                 ]
             ])
         ];
-
-            return [
-                    "response_type"=> "in_channel",
-                    "attachments" => json_encode([
-                    [
-            "text"=> "Choose a game to play",
-            "fallback"=> "If you could read this message, you'd be choosing something fun to do right now.",
-            "color"=> "#3AA3E3",
-            "attachment_type"=> "default",
-            "callback_id"=> "game_selection",
-            "actions"=> [
-                [
-                    "name"=>"games_list",
-                    "text"=> "Pick a game...",
-                    "type"=> "select",
-                    "options"=> [
-                        [
-                            "text"=> "Recommend",
-                            "value"=> "recommend"
-                        ],
-                        [
-                            "text"=> "Bridge",
-                            "value"=> "bridge"
-                        ],
-                        [
-                            "text"=> "Checkers",
-                            "value"=> "checkers"
-                        ],
-                        [
-                            "text"=> "Chess",
-                            "value"=> "chess"
-                        ],
-                        [
-                            "text"=> "Poker",
-                            "value"=> "poker"
-                        ],
-                        [
-                            "text"=>"Falken's Maze",
-                            "value"=> "maze"
-                        ],
-                        [
-                            "text"=> "Global Thermonuclear War",
-                            "value"=> "war"
-                        ]
-                    ]
-                ]
-            ]
-            ]
-                    ])
-                ];
     }
 
     /**
@@ -116,7 +79,42 @@ class RequestSelect implements Template, Arrayable
     public function addOption(array $option) : RequestSelect
     {
         $this->options[] = $option;
-        file_put_contents(path().'file.txt', json_encode( $this->options));
+        return $this;
+    }
+
+    /**
+     * Set text
+     *
+     * @param string $text
+     * @return RequestSelect
+     */
+    public function setText(string $text) : RequestSelect
+    {
+        $this->text = $text;
+        return $this;
+    }
+
+    /**
+     * Set placeholder menu
+     *
+     * @param string $placeholder
+     * @return RequestSelect
+     */
+    public function setPlaceholder(string $placeholder) : RequestSelect
+    {
+        $this->placeholder = $placeholder;
+        return $this;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return RequestSelect
+     */
+    public function setName(string $name) : RequestSelect
+    {
+        $this->name = $name;
         return $this;
     }
 }

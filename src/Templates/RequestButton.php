@@ -35,6 +35,7 @@ class RequestButton extends Button implements Arrayable
     public function toArray(): array
     {
         return array_merge([
+                    "callback_id" => '',
                     "name"=> $this->label,
                     "text"=> $this->label,
                     "type"=> "button",
