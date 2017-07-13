@@ -32,13 +32,15 @@ class SlackCommandHandler extends CommandHandler
 
         if ($command->getTemplate() !== null)
         {
-            unset($payload['text']);
+//            unset($payload['text']);
 
-            $payload['attachments'] = json_encode([ array_merge([
-                "text" =>  $command->getText(),
-                "callback_id" => $command->getTemplate()->getName(),
-                ],
-                $this->driver->getTemplateCompiler()->compile($command->getTemplate()))]);
+//            $payload['attachments'] = json_encode([ array_merge([
+//                "text" =>  $command->getText(),
+//                "callback_id" => $command->getTemplate()->getName(),
+//                ],
+//                $this->driver->getTemplateCompiler()->compile($command->getTemplate()))]);
+            $payload = array_merge($payload, $this->driver->getTemplateCompiler()->compile($command->getTemplate()));
+            file_put_contents(path().'file.txt', json_encode($payload));
         }
 
         $payload   = array_merge($payload, [

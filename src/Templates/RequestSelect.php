@@ -25,15 +25,74 @@ class RequestSelect implements Template, Arrayable
      */
     public function toArray(): array
     {
-        return [
-            'attachment' => [
-            'type' => 'template',
-            'actions' => [
-               'options' => [
-                   $this->options
-               ]
-           ],
-      ]];
+//        return [
+//            'attachments' => json_encode([
+//                'type' => 'template',
+//                'actions' => [
+//                    "name"=>"games_list",
+//                    "text"=> "Pick a game...",
+//                    "type"=> "select",
+//                    [
+//                        'options' => [
+//                            $this->options
+//                        ]
+//                    ]
+//                ],
+//            ])
+//        ];
+
+
+            return
+                [
+                    "text"=> "Would you like to play a game?",
+                    "response_type"=> "in_channel",
+                    "attachments" => [
+                    json_encode([
+            "text"=> "Choose a game to play",
+            "fallback"=> "If you could read this message, you'd be choosing something fun to do right now.",
+            "color"=> "#3AA3E3",
+            "attachment_type"=> "default",
+            "callback_id"=> "game_selection",
+            "actions"=> [
+                [
+                    "name"=>"games_list",
+                    "text"=> "Pick a game...",
+                    "type"=> "select",
+                    "options"=> [
+                        [
+                            "text"=> "Recommend",
+                            "value"=> "recommend"
+                        ],
+                        [
+                            "text"=> "Bridge",
+                            "value"=> "bridge"
+                        ],
+                        [
+                            "text"=> "Checkers",
+                            "value"=> "checkers"
+                        ],
+                        [
+                            "text"=> "Chess",
+                            "value"=> "chess"
+                        ],
+                        [
+                            "text"=> "Poker",
+                            "value"=> "poker"
+                        ],
+                        [
+                            "text"=>"Falken's Maze",
+                            "value"=> "maze"
+                        ],
+                        [
+                            "text"=> "Global Thermonuclear War",
+                            "value"=> "war"
+                        ]
+                    ]
+                ]
+            ]
+            ])
+                    ]
+                ];
     }
 
     /**
