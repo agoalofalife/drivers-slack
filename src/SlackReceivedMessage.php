@@ -54,7 +54,7 @@ class SlackReceivedMessage implements ReceivedMessage
      */
     public function getLocation(): ?Location
     {
-        return null;
+        return $this->payload->getLocation();
     }
 
     /**
@@ -64,7 +64,7 @@ class SlackReceivedMessage implements ReceivedMessage
      */
     public function getAttachment(): ?Attachment
     {
-        return null;
+        return $this->payload->getAttachment();
     }
 
     /**
@@ -74,7 +74,7 @@ class SlackReceivedMessage implements ReceivedMessage
      */
     public function hasAttachment(): bool
     {
-        // TODO: Implement hasAttachment() method.
+        return $this->payload->hasAttachment();
     }
 
     /**
@@ -84,7 +84,7 @@ class SlackReceivedMessage implements ReceivedMessage
      */
     public function hasData(): bool
     {
-        // TODO: Implement hasData() method.
+        return $this->payload->hasData();
     }
 
     /**
@@ -94,6 +94,6 @@ class SlackReceivedMessage implements ReceivedMessage
      */
     public function getData(): ?string
     {
-        return null;
+        return $this->payload->getData();
     }
 }

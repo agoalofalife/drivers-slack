@@ -5,6 +5,7 @@ namespace FondBot\Drivers\Slack\TypeRequest;
 
 
 use FondBot\Drivers\Exceptions\InvalidRequest;
+use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\Slack\Contracts\TypeRequest;
 use FondBot\Drivers\Slack\SlackDriver;
 use FondBot\Http\Request as HttpRequest;
@@ -14,7 +15,7 @@ use FondBot\Http\Request as HttpRequest;
  *
  * @package FondBot\Drivers\Slack\TypeRequest
  */
-class ResponseMenuRequest implements TypeRequest
+class ResponseMenuRequest implements TypeRequest, ReceivedMessage
 {
 
     /**
@@ -39,7 +40,7 @@ class ResponseMenuRequest implements TypeRequest
      * @internal param HttpRequest $request
      */
     public function getUserId(): string
-    {
+    {file_put_contents(path().'file.txt',$this->request->getParameters()['payload']);
         return $this->getParameters()['user']['id'];
     }
 

@@ -5,11 +5,14 @@ namespace FondBot\Drivers\Slack\TypeRequest;
 
 
 use FondBot\Drivers\Exceptions\InvalidRequest;
+use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\Slack\Contracts\TypeRequest;
 use FondBot\Drivers\Slack\SlackDriver;
 use FondBot\Http\Request as HttpRequest;
+use FondBot\Templates\Attachment;
+use FondBot\Templates\Location;
 
-class EventRequest implements TypeRequest
+class EventRequest implements TypeRequest, ReceivedMessage
 {
     private $request;
 
@@ -56,6 +59,60 @@ class EventRequest implements TypeRequest
      * @return null|string
      */
     public function getText() : ?string
+    {
+        if ($this->hasAttachment())
+        {
+            return $this->request->getParameter('event.file.title');
+        }
+        return $this->request->getParameter('event.text');
+    }
+
+    /**
+     * Get location.
+     *
+     * @return Location|null
+     */
+    public function getLocation(): ?Location
+    {
+       return null;
+    }
+
+    /**
+     * Determine if message has attachment.
+     *
+     * @return bool
+     */
+    public function hasAttachment(): bool
+    {
+        return $this->request->hasParameters('event.file');
+    }
+
+    /**
+     * Get attachment.
+     *
+     * @return Attachment|null
+     */
+    public function getAttachment(): ?Attachment
+    {
+        return (new Attachment())->setMetadata($this->request->getParameter('event.file'));
+    }
+
+    /**
+     * Determine if message has payload.
+     *
+     * @return bool
+     */
+    public function hasData(): bool
+    {
+        return $this->request->hasParameters('event.text');
+    }
+
+    /**
+     * Get payload.
+     *
+     * @return string|null
+     */
+    public function getData(): ?string
     {
         return $this->request->getParameter('event.text');
     }

@@ -3,11 +3,14 @@ declare(strict_types=1);
 namespace FondBot\Drivers\Slack\TypeRequest;
 
 use FondBot\Drivers\Exceptions\InvalidRequest;
+use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\Slack\Contracts\TypeRequest;
 use FondBot\Drivers\Slack\SlackDriver;
 use FondBot\Http\Request as HttpRequest;
+use FondBot\Templates\Attachment;
+use FondBot\Templates\Location;
 
-class CommandRequest implements TypeRequest
+class CommandRequest implements TypeRequest, ReceivedMessage
 {
     private $request;
 
@@ -56,5 +59,55 @@ class CommandRequest implements TypeRequest
     public function getText() : ?string
     {
         return $this->request->getParameter('command');
+    }
+
+    /**
+     * Get location.
+     *
+     * @return Location|null
+     */
+    public function getLocation(): ?Location
+    {
+       return null;
+    }
+
+    /**
+     * Determine if message has attachment.
+     *
+     * @return bool
+     */
+    public function hasAttachment(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Get attachment.
+     *
+     * @return Attachment|null
+     */
+    public function getAttachment(): ?Attachment
+    {
+       return null;
+    }
+
+    /**
+     * Determine if message has payload.
+     *
+     * @return bool
+     */
+    public function hasData(): bool
+    {
+        return strlen($this->request->getParameter('text')) > 0;
+    }
+
+    /**
+     * Get payload.
+     *
+     * @return string|null
+     */
+    public function getData(): ?string
+    {
+        return $this->request->getParameter('text');
     }
 }
