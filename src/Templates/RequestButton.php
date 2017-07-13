@@ -55,14 +55,13 @@ class RequestButton extends Button implements Arrayable
             "style" => $this->style,
             "type"=>"button",
             "name"=> $this->label ?? 'Default Name',
-            "text"=> $this->text ?? 'Default Name',
             "value"=> $this->activator ?? $this->label ?? 'default',
         ], is_null($this->buttonConfirm) ? [] : $this->buttonConfirm->toArray());
 
         return [
             'attachments' => json_encode([
             [
-            "text" => $this->text,
+            "text" => $this->text ?? 'Default',
             "callback_id" => bin2hex(random_bytes(5)),
             "attachment_type" => "default",
             'actions' => [$actions]

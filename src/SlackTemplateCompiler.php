@@ -49,10 +49,8 @@ class SlackTemplateCompiler extends TemplateCompiler
         {
             return null;
         }
-
-        return [
-            'actions' => $buttons,
-        ];
+//        file_put_contents(path().'file.txt', json_encode($buttons));
+        return $buttons[0];
     }
 
     /**
