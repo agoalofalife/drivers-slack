@@ -11,6 +11,7 @@ use FondBot\Drivers\Slack\TypeRequest\CommandRequest;
 use FondBot\Drivers\Slack\TypeRequest\EventRequest;
 use FondBot\Drivers\Slack\TypeRequest\ResponseButtonRequest;
 use FondBot\Drivers\Slack\TypeRequest\ResponseMenuRequest;
+use FondBot\Drivers\Telegram\SlackTemplateCompiler;
 use FondBot\Drivers\User;
 use FondBot\Drivers\Driver;
 use FondBot\Drivers\CommandHandler;
@@ -123,7 +124,7 @@ class SlackDriver extends Driver implements WebhookVerification
      */
     public function getTemplateCompiler(): ?TemplateCompiler
     {
-        return null;
+        return new SlackTemplateCompiler();
     }
 
     /**
