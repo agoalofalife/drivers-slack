@@ -9,6 +9,7 @@ use FondBot\Drivers\Exceptions\InvalidRequest;
 use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\Slack\SlackCommandHandler;
 use FondBot\Drivers\Slack\SlackDriver;
+use FondBot\Drivers\Slack\SlackTemplateCompiler;
 use Tests\TestCase;
 use GuzzleHttp\Client;
 use FondBot\Helpers\Str;
@@ -105,7 +106,7 @@ class SlackDriverTest extends TestCase
 
     public function test_getTemplateCompiler() : void
     {
-        $this->assertNull($this->driver->getTemplateCompiler());
+        $this->assertInstanceOf(SlackTemplateCompiler::class, $this->driver->getTemplateCompiler());
     }
 
     public function test_getCommandHandler() : void

@@ -6,6 +6,7 @@ namespace Tests\Unit;
 use FondBot\Drivers\Commands\SendAttachment;
 use FondBot\Drivers\Commands\SendRequest;
 use FondBot\Drivers\Slack\SlackCommandHandler;
+use FondBot\Drivers\Slack\SlackTemplateCompiler;
 use FondBot\Templates\Attachment;
 use Tests\TestCase;
 use FondBot\Drivers\Driver;
@@ -38,16 +39,21 @@ class SlackCommandHandlerTest extends TestCase
         $this->driver  = $this->mock(Driver::class);
     }
 
-    public function test_handleSendMessage(): void
+    public function test_handleSendMessage_with_Tempalate(): void
     {
         $template = $this->mock(Template::class);
+        $templateCompiler = $this->mock(SlackTemplateCompiler::class);
         $command  = new SendMessage($this->chat, $this->user, $this->text, $template);
 
+        $nameMethod = $this->faker()->word;
         $this->chat->shouldReceive('getId')->andReturn('foo')->once();
         $this->driver->shouldReceive('getParameter')->with('token')->andReturn($this->faker()->randomAscii)->once();
         $this->driver->shouldReceive('getHttp')->once()->andReturn($this->guzzle);
         $this->driver->shouldReceive('mapDriver')->once()->with('postMessage')->andReturn($this->text);
         $this->driver->shouldReceive('getBaseUrl')->andReturn($this->baseUrl )->once();
+        $this->driver->shouldReceive('getTemplateCompiler')->andReturn($templateCompiler)->once();
+        $templateCompiler->shouldReceive('compile')->once()->andReturn([]);
+        $template->shouldReceive('getName')->once()->andReturn($nameMethod);
 
         $this->guzzle->shouldReceive('post')->once()->with($this->baseUrl  . $this->text, \Mockery::type('array'));
         (new SlackCommandHandler($this->driver))->handle($command);
