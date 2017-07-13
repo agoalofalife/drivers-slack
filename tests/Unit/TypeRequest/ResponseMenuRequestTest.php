@@ -16,7 +16,7 @@ use FondBot\Http\Request as HttpRequest;
 class ResponseMenuRequestTest extends TestCase
 {
     /**
-     * @var ResponseMenuRequestTest
+     * @var ResponseMenuRequest
      */
     protected $responseMenuRequest;
 
@@ -25,27 +25,27 @@ class ResponseMenuRequestTest extends TestCase
      */
     protected $request;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->request        = $this->mock(HttpRequest::class);
         $this->responseMenuRequest = new ResponseMenuRequest($this->request);
     }
 
-    public function test_getUserId()
+    public function test_getUserId() : void
     {
         $json = '{"user" : {"id" : "1DA"}}';
         $this->request->shouldReceive('getParameter')->once()->with('payload')->andReturn($json);
         $this->responseMenuRequest->getUserId();
     }
 
-    public function test_getChatId()
+    public function test_getChatId() : void
     {
         $json = '{"channel" : {"id" : "1DA"}}';
         $this->request->shouldReceive('getParameter')->once()->with('payload')->andReturn($json);
         $this->responseMenuRequest->getChatId();
     }
 
-    public function test_verifyRequest()
+    public function test_verifyRequest() : void
     {
         $json = '{"token" : "sx"}';
         $token   = $this->faker()->word;
@@ -55,7 +55,7 @@ class ResponseMenuRequestTest extends TestCase
         $this->responseMenuRequest->verifyRequest($driver);
     }
 
-    public function test_verifyRequest_exception()
+    public function test_verifyRequest_exception() : void
     {
         $json    = '{"token" : "sx"}';
         $driver  = $this->mock(SlackDriver::class);
@@ -65,11 +65,40 @@ class ResponseMenuRequestTest extends TestCase
         $this->responseMenuRequest->verifyRequest($driver);
     }
 
-    public function test_getText()
+    public function test_getText() : void
     {
         $driver  = $this->mock(SlackDriver::class);
         $json    = '{"actions" : [{ "selected_options" : [{"value" : "test" }]}]}';
         $this->request->shouldReceive('getParameter')->once()->with('payload')->andReturn($json);
         $this->responseMenuRequest->getText($driver);
+    }
+
+    public function test_getLocation() : void
+    {
+        $this->assertNull($this->responseMenuRequest->getLocation());
+    }
+
+    public function test_hasAttachment() : void
+    {
+        $this->assertFalse($this->responseMenuRequest->hasAttachment());
+    }
+
+    public function test_getAttachment() : void
+    {
+        $this->assertNull($this->responseMenuRequest->getAttachment());
+    }
+
+    public function test_hasData() : void
+    {
+        $json    = '{"token" : "sx"}';
+        $this->request->shouldReceive('getParameter')->once()->with('payload')->andReturn($json);
+        $this->assertFalse($this->responseMenuRequest->hasData());
+    }
+
+    public function test_getData()
+    {
+        $json    = '{"actions" : "sx"}';
+        $this->request->shouldReceive('getParameter')->once()->with('payload')->andReturn($json);
+        $this->responseMenuRequest->getData();
     }
 }
