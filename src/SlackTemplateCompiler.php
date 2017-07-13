@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Slack;
 
+use FondBot\Drivers\Slack\Templates\RequestButton;
 use FondBot\Templates\Keyboard;
 use FondBot\Drivers\TemplateCompiler;
 use FondBot\Templates\Keyboard\Button;
@@ -29,7 +30,7 @@ class SlackTemplateCompiler extends TemplateCompiler
 //    ];
 
     private $keyboardButtons = [
-        'RequestButton'
+        RequestButton::class
     ];
 
     /**
@@ -42,6 +43,7 @@ class SlackTemplateCompiler extends TemplateCompiler
      */
     protected function compileKeyboard(Keyboard $keyboard, array $args): ?array
     {
+
         $buttons = collect($keyboard->getButtons())
             ->filter(function (Button $button) use ($keyboard) {
                 return in_array($button->getName(), $this->keyboardButtons, true);
@@ -95,6 +97,7 @@ class SlackTemplateCompiler extends TemplateCompiler
         }
 
     }
+
     /**
      * Compile payload button.
      *
