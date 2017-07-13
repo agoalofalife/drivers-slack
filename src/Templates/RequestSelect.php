@@ -34,6 +34,11 @@ class RequestSelect implements Template, Arrayable
     private $name;
 
     /**
+     * @var string
+     */
+    private $callbackId;
+
+    /**
      * Get the instance as an array.
      *
      * @return array
@@ -46,7 +51,7 @@ class RequestSelect implements Template, Arrayable
                 [
                 "text" => $this->text ?? '',
                 'type' => 'template',
-                "callback_id" => "game_selection",
+                "callback_id" => $this->callbackId ?? bin2hex(random_bytes(5)),
                 'actions' => [
                     [
                     "name"=> $this->name ?? 'default',
@@ -115,6 +120,18 @@ class RequestSelect implements Template, Arrayable
     public function setName(string $name) : RequestSelect
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * Set unique callback id
+     *
+     * @param string $id
+     * @return RequestSelect
+     */
+    public function setCallbackId(string $id) : RequestSelect
+    {
+        $this->callbackId = $id;
         return $this;
     }
 }
