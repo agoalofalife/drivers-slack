@@ -29,7 +29,7 @@ class SlackDriverTest extends TestCase
         $this->guzzle = $this->mock(Client::class);
 
         $this->driver = new SlackDriver($this->guzzle);
-        $this->driver->fill($this->parameters = [], new Request($this->factoryTypeRequest(), []));
+        $this->driver->fill($this->parameters = ['verify_token' => $this->getToken()], new Request($this->factoryTypeRequest(), []));
     }
 
     public function test_getBaseUrl()
@@ -43,7 +43,7 @@ class SlackDriverTest extends TestCase
 
         foreach ($types as $type)
         {
-            $this->driver->fill($this->parameters = ['verify_token' => 'test'], new Request($type, []));
+            $this->driver->fill($this->parameters = ['verify_token' => $this->getToken()], new Request($type, []));
             $this->driver->verifyRequest();
         }
 

@@ -46,20 +46,21 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $arguments =  [
                  0 => [
                 'type' => $faker->word,
+                'token' => $this->getToken(),
                 'event' => [
                     'user' => (string) $faker->randomDigit,
                     'text' => $faker->text,
                     'channel' => $faker->randomLetter,
-
                 ]],
                 1 => [
+                    'token' => $this->getToken(),
                     'user_id' => $faker->word,
                     'channel_id' => $faker->randomLetter,
                     'command' => $faker->text,
                     'text' => $faker->text
                 ],
                 2 => [
-                    'payload' => '{"actions":[{"value":"test"}], "token": "test"}'
+                    'payload' => '{"actions":[{"value":"test"}], "token": "'. $this->getToken() .'"}'
                 ]
         ];
         if ($mode === false) {
@@ -95,5 +96,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                     ]
                 ]
             ], $additional));
+    }
+
+    public function getToken() : string
+    {
+        return 'test';
     }
 }
