@@ -41,7 +41,7 @@ class SlackDriver extends Driver implements WebhookVerification
      */
     public function verifyRequest(): void
     {
-        $this->concreteRequest = $this->factoryTypeRequest($this->request);
+        $this->concreteRequest = $this->factoryTypeRequest();
         $this->concreteRequest->verifyRequest($this);
     }
 
@@ -54,7 +54,7 @@ class SlackDriver extends Driver implements WebhookVerification
      */
     public function getUser(): User
     {
-        $from     = $this->concreteRequest->getUserId($this->request);
+        $from     = $this->concreteRequest->getUserId();
 
         $userData = $this->http->get($this->getBaseUrl() . $this->mapDriver('infoAboutUser'),
             [
@@ -144,7 +144,7 @@ class SlackDriver extends Driver implements WebhookVerification
     public function getChat(): Chat
     {
         return new Chat(
-            (string) $this->concreteRequest->getChatId($this->request),
+            (string) $this->concreteRequest->getChatId(),
             ''
         );
     }
