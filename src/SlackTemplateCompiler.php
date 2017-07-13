@@ -100,11 +100,11 @@ class SlackTemplateCompiler extends TemplateCompiler
      * @param PayloadButton $button
      * @param array $args
      *
-     * @return mixed
+     * @return array
      */
     public function compilePayloadButton(PayloadButton $button, array $args): array
     {
-        return [['text' => $button->getLabel(), 'callback_data' => $button->getPayload()]];
+        return [];
     }
 
     /**
@@ -113,11 +113,11 @@ class SlackTemplateCompiler extends TemplateCompiler
      * @param ReplyButton $button
      * @param array $args
      *
-     * @return mixed
+     * @return array
      */
     public function compileReplyButton(ReplyButton $button, array $args): array
     {
-        return [$button->getLabel()];
+        return [];
     }
 
     /**
@@ -126,11 +126,11 @@ class SlackTemplateCompiler extends TemplateCompiler
      * @param UrlButton $button
      * @param array $args
      *
-     * @return mixed
+     * @return array
      */
     public function compileUrlButton(UrlButton $button, array $args): array
     {
-        return [['text' => $button->getLabel(), 'url' => $button->getUrl()]];
+        return [];
     }
 
     /**

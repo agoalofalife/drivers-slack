@@ -72,7 +72,7 @@ class SlackCommandHandler extends CommandHandler
 //            ]
 //    ]]);
         }
-        file_put_contents(path().'file.txt', $payload['attachments'] );
+//        file_put_contents(path().'file.txt', $payload['attachments'] );
         $payload   = array_merge($payload, [
             'token'   => $this->driver->getParameter('token')
         ]);
