@@ -49,7 +49,7 @@ class RequestButton extends Button implements Arrayable
      */
     public function getName(): string
     {
-        return get_class($this);
+        return 'RequestButton';
     }
 
     /**

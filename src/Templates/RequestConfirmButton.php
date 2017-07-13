@@ -51,7 +51,7 @@ class RequestConfirmButton extends Button implements Arrayable
      */
     public function getName(): string
     {
-       return get_class($this);
+       return 'RequestConfirmButton';
     }
 
     /**
