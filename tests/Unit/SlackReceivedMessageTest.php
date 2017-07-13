@@ -32,17 +32,32 @@ class SlackReceivedMessageTest extends TestCase
 
     public function test_getLocation()
     {
-        $this->assertNull($this->receive->getLocation());
+        $this->typeRequest->shouldReceive('getLocation')->once()->andReturn(null);
+        $this->receive->getLocation();
     }
 
     public function test_getAttachment()
     {
-        $this->assertNull($this->receive->getAttachment());
+        $this->typeRequest->shouldReceive('getAttachment')->once()->andReturn(null);
+        $this->receive->getAttachment();
+    }
+
+    public function test_hasAttachment()
+    {
+        $this->typeRequest->shouldReceive('hasAttachment')->once()->andReturn($this->faker()->boolean);
+        $this->receive->hasAttachment();
+    }
+
+    public function test_hasData()
+    {
+        $this->typeRequest->shouldReceive('hasData')->once()->andReturn($this->faker()->boolean);
+        $this->receive->hasData();
     }
 
     public function test_getData()
     {
-        $this->assertNull($this->receive->getData());
+        $this->typeRequest->shouldReceive('getData')->once()->andReturn($this->faker()->word);
+        $this->receive->getData();
     }
 
 }
