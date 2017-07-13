@@ -94,6 +94,6 @@ class SlackReceivedMessage implements ReceivedMessage
      */
     public function getData(): ?string
     {
-        // TODO: Implement getData() method.
+        return null;
     }
 }

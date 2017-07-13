@@ -61,6 +61,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 ],
                 2 => [
                     'payload' => '{"actions":[{"value":"test"}], "token": "'. $this->getToken() .'"}'
+                ],
+                3 => [
+                    'payload' => '{"actions":[{"selected_options":"test"}], "token": "'. $this->getToken() .'"}'
                 ]
         ];
         if ($mode === false) {

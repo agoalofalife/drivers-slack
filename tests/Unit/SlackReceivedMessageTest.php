@@ -39,4 +39,10 @@ class SlackReceivedMessageTest extends TestCase
     {
         $this->assertNull($this->receive->getAttachment());
     }
+
+    public function test_getData()
+    {
+        $this->assertNull($this->receive->getData());
+    }
+
 }

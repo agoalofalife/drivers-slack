@@ -5,6 +5,7 @@ namespace Tests\Unit\TypeRequest;
 
 use FondBot\Drivers\Exceptions\InvalidRequest;
 use FondBot\Drivers\Slack\SlackDriver;
+use FondBot\Drivers\Slack\TypeRequest\ResponseMenuRequest;
 use Tests\TestCase;
 use FondBot\Http\Request as HttpRequest;
 
@@ -12,10 +13,10 @@ use FondBot\Http\Request as HttpRequest;
  * Class ResponseMenuRequest
  * @package Tests\Unit\TypeRequest
  */
-class ResponseMenuRequest extends TestCase
+class ResponseMenuRequestTest extends TestCase
 {
     /**
-     * @var ResponseMenuRequest
+     * @var ResponseMenuRequestTest
      */
     protected $responseMenuRequest;
 
@@ -67,7 +68,7 @@ class ResponseMenuRequest extends TestCase
     public function test_getText()
     {
         $driver  = $this->mock(SlackDriver::class);
-        $json    = '{"actions" : [{ "value" : "as"}]}';
+        $json    = '{"actions" : [{ "selected_options" : [{"value" : "test" }]}]}';
         $this->request->shouldReceive('getParameter')->once()->with('payload')->andReturn($json);
         $this->responseMenuRequest->getText($driver);
     }
