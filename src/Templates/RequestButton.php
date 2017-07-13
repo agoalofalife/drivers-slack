@@ -34,14 +34,15 @@ class RequestButton extends Button implements Arrayable
      */
     public function toArray(): array
     {
-        return array_merge([
-                    "callback_id" => '',
-                    "name"=> $this->label,
-                    "text"=> $this->label,
-                    "type"=> "button",
-                    "value"=> $this->activator ?? $this->label,
-                    "style"=> $this->style,
-              ], is_null($this->buttonConfirm) ? [] : $this->buttonConfirm->toArray());
+        $prepare =   array_merge([
+            "callback_id" => bin2hex(random_bytes(5)),
+            "name"=> $this->label ?? 'acs',
+            "text"=> $this->label ?? 'asc',
+            "type"=> "button",
+            "value"=> $this->activator ?? $this->label ?? 'asx',
+            "style"=> $this->style,
+        ], is_null($this->buttonConfirm) ? [] : $this->buttonConfirm->toArray());
+        return ['attachments' => json_encode([$prepare]) ];
     }
     /**
      * Get name.
