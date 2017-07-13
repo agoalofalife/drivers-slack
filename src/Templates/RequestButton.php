@@ -18,6 +18,10 @@ class RequestButton extends Button implements Arrayable
     private $activator;
 
     /**
+     * @var string
+     */
+    private $style;
+    /**
      * Get the instance as an array.
      *
      * @return array
@@ -28,7 +32,14 @@ class RequestButton extends Button implements Arrayable
                     "name"=> $this->label,
                     "text"=> $this->label,
                     "type"=> "button",
-                    "value"=> $this->activator ?? $this->label
+                    "value"=> $this->activator ?? $this->label,
+                    "style"=> "danger",
+                    "confirm"=> [
+                   "title"=> "Are you sure?",
+                        "text"=> "Wouldn't you prefer a good game of chess?",
+                        "ok_text"=> "Yes",
+                        "dismiss_text"=>"No"
+                    ]
               ];
     }
     /**
@@ -45,10 +56,21 @@ class RequestButton extends Button implements Arrayable
      * Set activator
      *
      * @param string|null $activator
-     * @return string
+     * @return Button
      */
-    public function setActivator(string $activator = null) : string
+    public function setActivator(string $activator = null) : Button
     {
         $this->activator = $activator;
+        return $this;
+    }
+
+    /**
+     * @param string|null $style
+     * @return Button
+     */
+    public function setStyle(string $style = null) : Button
+    {
+        $this->style = $style;
+        return $this;
     }
 }
