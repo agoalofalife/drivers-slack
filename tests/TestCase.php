@@ -101,8 +101,22 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             ], $additional));
     }
 
+    /**
+     * @return string
+     */
     public function getToken() : string
     {
         return 'test';
+    }
+
+    /**
+     * @param array $keys
+     * @param array $source
+     */
+    public function assertArrayHasKeys(array $keys, array $source) : void
+    {
+        array_map(function($key) use ($source){
+            $this->assertArrayHasKey($key, $source);
+        }, $keys);
     }
 }

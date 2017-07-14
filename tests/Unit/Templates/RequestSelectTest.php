@@ -43,4 +43,11 @@ class RequestSelectTest extends TestCase
     {
         $this->assertInstanceOf(RequestSelect::class, $this->requestSelect->setName($this->faker()->word));
     }
+
+    public function test_toArray() : void
+    {
+        $source = $this->requestSelect->toArray();
+        $this->assertArrayHasKey('response_type', $source);
+        $this->assertArrayHasKey('attachments', $source);
+    }
 }
