@@ -1,6 +1,6 @@
 /vendor
 /tests/Coverage
-
+README.md~
 .DS_Store
 Thumbs.db
 .discovery
