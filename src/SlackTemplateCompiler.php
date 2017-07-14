@@ -26,51 +26,7 @@ class SlackTemplateCompiler extends TemplateCompiler
     ];
 
 
-    /**
-     * Compile keyboard.
-     *
-     * @param Keyboard $keyboard
-     * @param array $args
-     *
-     * @return mixed
-     */
-    protected function compileKeyboard(Keyboard $keyboard, array $args): ?array
-    {
-        $buttons = collect($keyboard->getButtons())
-                ->filter(function (Button $button) use ($keyboard) {
-                    return in_array($button->getName(), $this->keyboardButtons, true);
-                })
-                ->map(function (Button $button) {
-                    return $this->compile($button);
-                })
-                ->toArray();
 
-        if (!count($buttons))
-        {
-            return null;
-        }
-
-        $buttons = ['attachments' => json_encode([
-            [
-                "text" => $args['text'] ?? 'Default description',
-                "callback_id" => bin2hex(random_bytes(5)),
-                "attachment_type" => "default",
-                'actions' => $buttons
-
-            ]
-        ])];
-        return $buttons;
-    }
-
-    /**
-     * @param RequestSelect $requestSelect
-     * @param array         $args
-     * @return array|null
-     */
-    protected function compileRequestSelect(RequestSelect $requestSelect, array $args) : ?array
-    {
-       return null;
-    }
     /**
      * Compile payload button.
      *
@@ -108,5 +64,41 @@ class SlackTemplateCompiler extends TemplateCompiler
     public function compileUrlButton(UrlButton $button, array $args): array
     {
         return [];
+    }
+
+    /**
+     * Compile keyboard.
+     *
+     * @param Keyboard $keyboard
+     * @param array $args
+     *
+     * @return mixed
+     */
+    protected function compileKeyboard(Keyboard $keyboard, array $args): ?array
+    {
+        $buttons = collect($keyboard->getButtons())
+            ->filter(function (Button $button) use ($keyboard) {
+                return in_array($button->getName(), $this->keyboardButtons, true);
+            })
+            ->map(function (Button $button) {
+                return $this->compile($button);
+            })
+            ->toArray();
+
+        if (!count($buttons))
+        {
+            return null;
+        }
+
+        $buttons = ['attachments' => json_encode([
+            [
+                "text" => $args['text'] ?? 'Default description',
+                "callback_id" => bin2hex(random_bytes(5)),
+                "attachment_type" => "default",
+                'actions' => $buttons
+
+            ]
+        ])];
+        return $buttons;
     }
 }
