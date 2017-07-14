@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace FondBot\Drivers\Slack\Templates;
 
 use FondBot\Templates\Keyboard\Button;
@@ -51,7 +53,7 @@ class RequestConfirmButton extends Button implements Arrayable
      */
     public function getName(): string
     {
-       return 'RequestConfirmButton';
+        return 'RequestConfirmButton';
     }
 
     /**

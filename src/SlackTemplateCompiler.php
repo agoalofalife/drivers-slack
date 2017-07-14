@@ -25,8 +25,6 @@ class SlackTemplateCompiler extends TemplateCompiler
         'RequestButton'
     ];
 
-
-
     /**
      * Compile payload button.
      *
@@ -85,8 +83,7 @@ class SlackTemplateCompiler extends TemplateCompiler
             })
             ->toArray();
 
-        if (!count($buttons))
-        {
+        if (!count($buttons)) {
             return null;
         }
 

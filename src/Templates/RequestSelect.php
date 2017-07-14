@@ -42,7 +42,8 @@ class RequestSelect implements Template, Arrayable
     {
         return [
             "response_type" => "in_channel",
-            'attachments' => json_encode([
+            'attachments' => json_encode(
+                [
                 [
                 "text" => $this->text ?? '',
                 'type' => 'template',
@@ -55,8 +56,8 @@ class RequestSelect implements Template, Arrayable
                     'options' => $this->options
                     ]
                 ]
-                ]
-            ])
+                ]]
+            )
         ];
     }
 

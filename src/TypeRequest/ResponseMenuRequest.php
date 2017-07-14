@@ -67,8 +67,7 @@ class ResponseMenuRequest implements TypeRequest, ReceivedMessage
      */
     public function verifyRequest(SlackDriver $driver): void
     {
-        if ( !$this->getParameters()['token'] == $driver->getParameter('verify_token') )
-        {
+        if (!$this->getParameters()['token'] == $driver->getParameter('verify_token')) {
             throw new InvalidRequest('Invalid verify token');
         }
     }

@@ -39,13 +39,14 @@ class RequestButton extends Button implements Arrayable
     public function toArray(): array
     {
         return array_merge(
-        [
+            [
             'text' => $this->label,
             "style" => $this->style,
             "type"=> "button",
             "name"=> $this->label ?? 'Default Name',
-            "value"=> $this->activator ?? $this->label ?? 'default',
-        ], is_null($this->buttonConfirm) ? [] : $this->buttonConfirm->toArray());
+            "value"=> $this->activator ?? $this->label ?? 'default'],
+            is_null($this->buttonConfirm) ? [] : $this->buttonConfirm->toArray()
+        );
     }
 
     /**

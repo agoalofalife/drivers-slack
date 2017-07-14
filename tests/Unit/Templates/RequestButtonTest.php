@@ -21,7 +21,7 @@ class RequestButtonTest extends TestCase
 
     public function test_toArray()
     {
-        $this->assertArrayHasKeys(['text', 'style', 'type', 'name', 'value'],   $this->requestButton->toArray());
+        $this->assertArrayHasKeys(['text', 'style', 'type', 'name', 'value'], $this->requestButton->toArray());
     }
 
     public function test_getName()

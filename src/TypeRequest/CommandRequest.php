@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 namespace FondBot\Drivers\Slack\TypeRequest;
 
@@ -10,6 +11,11 @@ use FondBot\Http\Request as HttpRequest;
 use FondBot\Templates\Attachment;
 use FondBot\Templates\Location;
 
+/**
+ * Class CommandRequest
+ *
+ * @package FondBot\Drivers\Slack\TypeRequest
+ */
 class CommandRequest implements TypeRequest, ReceivedMessage
 {
     private $request;
@@ -25,7 +31,7 @@ class CommandRequest implements TypeRequest, ReceivedMessage
      */
     public function getUserId(): string
     {
-       return $this->request->getParameter('user_id');
+        return $this->request->getParameter('user_id');
     }
 
     /**
@@ -34,7 +40,7 @@ class CommandRequest implements TypeRequest, ReceivedMessage
      */
     public function getChatId(): string
     {
-      return $this->request->getParameters()['channel_id'];
+        return $this->request->getParameters()['channel_id'];
     }
 
     /**
@@ -47,8 +53,7 @@ class CommandRequest implements TypeRequest, ReceivedMessage
      */
     public function verifyRequest(SlackDriver $driver): void
     {
-        if ( !$this->request->getParameter('token') == $driver->getParameter('verify_token') )
-        {
+        if (!$this->request->getParameter('token') == $driver->getParameter('verify_token')) {
             throw new InvalidRequest('Invalid verify token');
         }
     }
@@ -68,7 +73,7 @@ class CommandRequest implements TypeRequest, ReceivedMessage
      */
     public function getLocation(): ?Location
     {
-       return null;
+         return null;
     }
 
     /**
@@ -88,7 +93,7 @@ class CommandRequest implements TypeRequest, ReceivedMessage
      */
     public function getAttachment(): ?Attachment
     {
-       return null;
+         return null;
     }
 
     /**

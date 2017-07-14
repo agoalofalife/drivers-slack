@@ -49,8 +49,7 @@ class EventRequest implements TypeRequest, ReceivedMessage
      */
     public function verifyRequest(SlackDriver $driver): void
     {
-        if ( !$this->request->getParameter('token') == $driver->getParameter('verify_token') )
-        {
+        if (!$this->request->getParameter('token') == $driver->getParameter('verify_token')) {
             throw new InvalidRequest('Invalid verify token');
         }
     }
@@ -60,8 +59,7 @@ class EventRequest implements TypeRequest, ReceivedMessage
      */
     public function getText() : ?string
     {
-        if ($this->hasAttachment())
-        {
+        if ($this->hasAttachment()) {
             return $this->request->getParameter('event.file.title');
         }
         return $this->request->getParameter('event.text');
@@ -74,7 +72,7 @@ class EventRequest implements TypeRequest, ReceivedMessage
      */
     public function getLocation(): ?Location
     {
-       return null;
+        return null;
     }
 
     /**

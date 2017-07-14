@@ -36,7 +36,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     /**
      * @return mixed|Mockery\Mock
      */
-    protected function guzzle() {
+    protected function guzzle()
+    {
         return $this->guzzle ?? $this->mock(Client::class);
     }
 
@@ -52,26 +53,25 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                     'text' => $faker->text,
                     'channel' => $faker->randomLetter,
                 ]],
-                1 => [
+                 1 => [
                     'token' => $this->getToken(),
                     'user_id' => $faker->word,
                     'channel_id' => $faker->randomLetter,
                     'command' => $faker->text,
                     'text' => $faker->text
-                ],
-                2 => [
+                 ],
+                 2 => [
                     'payload' => '{"actions":[{"value":"test"}], "token": "'. $this->getToken() .'"}'
-                ],
-                3 => [
+                 ],
+                 3 => [
                     'payload' => '{"actions":[{"selected_options":"test"}], "token": "'. $this->getToken() .'"}'
-                ]
+                 ]
         ];
         if ($mode === false) {
             return $arguments[0];
-        } else{
+        } else {
             return $arguments;
         }
-
     }
 
     /**
@@ -84,7 +84,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     protected function factoryUserInfo(array $additional = []) : string
     {
         $faker = $this->faker();
-        return json_encode( array_merge(
+        return json_encode(array_merge(
             [
                 "ok" =>  $faker->boolean(),
                 "user" => [
@@ -98,7 +98,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                         "real_name"=> $faker->name,
                     ]
                 ]
-            ], $additional));
+            ],
+            $additional
+        ));
     }
 
     /**
@@ -115,7 +117,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      */
     public function assertArrayHasKeys(array $keys, array $source) : void
     {
-        array_map(function($key) use ($source){
+        array_map(function ($key) use ($source) {
             $this->assertArrayHasKey($key, $source);
         }, $keys);
     }

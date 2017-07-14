@@ -56,16 +56,14 @@ class SlackDriver extends Driver implements WebhookVerification
     {
         $from     = $this->concreteRequest->getUserId();
 
-        $userData = $this->http->get($this->getBaseUrl() . $this->mapDriver('infoAboutUser'),
-            [
+        $userData = $this->http->get($this->getBaseUrl() . $this->mapDriver('infoAboutUser'), [
                 'query' => [
                     'token' => $this->getParameter('token'),
                     'user'  => $from
                 ]
             ])->getBody();
 
-        if ( ($responseUser = $this->jsonNormalize($userData))->ok === false)
-        {
+        if (($responseUser = $this->jsonNormalize($userData))->ok === false) {
             throw new \Exception($responseUser->error);
         }
 
@@ -107,13 +105,11 @@ class SlackDriver extends Driver implements WebhookVerification
             'postMessage'   => 'chat.postMessage'
         ];
 
-        if ( isset($map[$name]) )
-        {
+        if (isset($map[$name])) {
             return $map[$name];
-        } else{
+        } else {
             throw new \Exception('no matches');
         }
-
     }
 
     /**
@@ -180,28 +176,22 @@ class SlackDriver extends Driver implements WebhookVerification
     private function factoryTypeRequest() : TypeRequest
     {
 
-        if ($this->request->hasParameters(['type', 'event.user', 'event.text', 'event.channel']))
-        {
+        if ($this->request->hasParameters(['type', 'event.user', 'event.text', 'event.channel'])) {
             return new EventRequest($this->request);
         }
 
-        if ($this->request->hasParameters(['channel_id', 'text', 'user_id']))
-        {
-           return  new CommandRequest($this->request);
+        if ($this->request->hasParameters(['channel_id', 'text', 'user_id'])) {
+            return new CommandRequest($this->request);
         }
 
-        if ($this->request->hasParameters(['payload']))
-        {
+        if ($this->request->hasParameters(['payload'])) {
             $data = json_decode($this->request->getParameter('payload'), true);
 
-            if (isset($data['actions'][0]['value']))
-            {
+            if (isset($data['actions'][0]['value'])) {
                 return new ResponseButtonRequest($this->request);
             }
 
-            if (isset($data['actions'][0]['selected_options']))
-            {
-
+            if (isset($data['actions'][0]['selected_options'])) {
                 return new ResponseMenuRequest($this->request);
             }
         }

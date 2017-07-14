@@ -30,10 +30,12 @@ class SlackCommandHandler extends CommandHandler
             'text' => $command->getText(),
         ];
 
-        if ($command->getTemplate() !== null)
-        {
+        if ($command->getTemplate() !== null) {
             unset($payload['text']);
-            $payload = array_merge($payload, $this->driver->getTemplateCompiler()->compile($command->getTemplate(), ['text' => $command->getText()]));
+            $payload = array_merge(
+                $payload,
+                $this->driver->getTemplateCompiler()->compile($command->getTemplate(), ['text' => $command->getText()])
+            );
         }
 
         $payload   = array_merge($payload, [
@@ -57,7 +59,7 @@ class SlackCommandHandler extends CommandHandler
             'token'   => $this->driver->getParameter('token'),
         ];
 
-        $payload = array_merge($payload,  $command->getAttachment()->getMetadata());
+        $payload = array_merge($payload, $command->getAttachment()->getMetadata());
         $this->driver->getHttp()->post($this->driver->getBaseUrl() . $this->driver->mapDriver('postMessage'), [
             'query' => $payload
         ])->getBody()->getContents();

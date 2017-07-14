@@ -61,8 +61,7 @@ class ResponseButtonRequest implements TypeRequest, ReceivedMessage
      */
     public function verifyRequest(SlackDriver $driver): void
     {
-        if ( !$this->getParameters()['token'] == $driver->getParameter('verify_token') )
-        {
+        if (!$this->getParameters()['token'] == $driver->getParameter('verify_token')) {
             throw new InvalidRequest('Invalid verify token');
         }
     }
@@ -82,7 +81,7 @@ class ResponseButtonRequest implements TypeRequest, ReceivedMessage
      */
     public function getLocation(): ?Location
     {
-       return null;
+        return null;
     }
 
     /**
@@ -102,7 +101,7 @@ class ResponseButtonRequest implements TypeRequest, ReceivedMessage
      */
     public function getAttachment(): ?Attachment
     {
-       return null;
+        return null;
     }
 
     /**
