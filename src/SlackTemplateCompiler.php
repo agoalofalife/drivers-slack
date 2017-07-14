@@ -37,30 +37,29 @@ class SlackTemplateCompiler extends TemplateCompiler
     protected function compileKeyboard(Keyboard $keyboard, array $args): ?array
     {
         $buttons = collect($keyboard->getButtons())
-            ->filter(function (Button $button) use ($keyboard) {
-                return in_array($button->getName(), $this->keyboardButtons, true);
-            })
-            ->map(function (Button $button) {
-                return $this->compile($button);
-            })
-            ->toArray();
+                ->filter(function (Button $button) use ($keyboard) {
+                    return in_array($button->getName(), $this->keyboardButtons, true);
+                })
+                ->map(function (Button $button) {
+                    return $this->compile($button);
+                })
+                ->toArray();
 
         if (!count($buttons))
         {
             return null;
         }
 
-    $buttons = ['attachments' => json_encode([
-        [
-            "text" => $args['text'] ?? 'Default description',
-            "callback_id" => bin2hex(random_bytes(5)),
-            "attachment_type" => "default",
-            'actions' => $buttons
+        $buttons = ['attachments' => json_encode([
+            [
+                "text" => $args['text'] ?? 'Default description',
+                "callback_id" => bin2hex(random_bytes(5)),
+                "attachment_type" => "default",
+                'actions' => $buttons
 
-        ]
-    ])];
-        file_put_contents(path().'file.txt', json_encode($buttons));
-
+            ]
+        ])];
+//        file_put_contents(path().'file.txt', json_encode($buttons));
         return $buttons;
     }
 
@@ -71,7 +70,7 @@ class SlackTemplateCompiler extends TemplateCompiler
      */
     protected function compileRequestSelect(RequestSelect $requestSelect, array $args) : ?array
     {
-        file_put_contents(path(). 'file.txt', 'I am inner');
+       return null;
     }
     /**
      * Compile payload button.
