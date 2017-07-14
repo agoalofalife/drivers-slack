@@ -45,7 +45,7 @@ class SlackCommandHandlerTest extends TestCase
         $templateCompiler = $this->mock(SlackTemplateCompiler::class);
         $command  = new SendMessage($this->chat, $this->user, $this->text, $template);
 
-        $nameMethod = $this->faker()->word;
+
         $this->chat->shouldReceive('getId')->andReturn('foo')->once();
         $this->driver->shouldReceive('getParameter')->with('token')->andReturn($this->faker()->randomAscii)->once();
         $this->driver->shouldReceive('getHttp')->once()->andReturn($this->guzzle);
@@ -53,7 +53,6 @@ class SlackCommandHandlerTest extends TestCase
         $this->driver->shouldReceive('getBaseUrl')->andReturn($this->baseUrl )->once();
         $this->driver->shouldReceive('getTemplateCompiler')->andReturn($templateCompiler)->once();
         $templateCompiler->shouldReceive('compile')->once()->andReturn([]);
-        $template->shouldReceive('getName')->once()->andReturn($nameMethod);
 
         $this->guzzle->shouldReceive('post')->once()->with($this->baseUrl  . $this->text, \Mockery::type('array'));
         (new SlackCommandHandler($this->driver))->handle($command);
