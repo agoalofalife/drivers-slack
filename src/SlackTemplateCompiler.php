@@ -49,14 +49,19 @@ class SlackTemplateCompiler extends TemplateCompiler
         {
             return null;
         }
-        $new['attachments'] = [];
-        foreach ($buttons as $button){
-            $new['attachments'] = array_merge($new['attachments'], json_decode($button['attachments']));
-        }
-        $new['attachments'] = json_encode($new['attachments']);
-//        file_put_contents(path().'file.txt', $buttons[0]['attachments']);
-        file_put_contents(path().'file.txt', json_encode($new));
-        return $new;
+
+    $buttons = ['attachments' => json_encode([
+        [
+            "text" => $args['text'] ?? 'Default description',
+            "callback_id" => bin2hex(random_bytes(5)),
+            "attachment_type" => "default",
+            'actions' => $buttons
+
+        ]
+    ])];
+        file_put_contents(path().'file.txt', json_encode($buttons));
+
+        return $buttons;
     }
 
     /**

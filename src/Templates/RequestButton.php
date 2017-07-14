@@ -51,21 +51,21 @@ class RequestButton extends Button implements Arrayable
 //                ]
 //            ]
 //           ], is_null($this->buttonConfirm) ? [] : $this->buttonConfirm->toArray());
-        $actions  = array_merge(    [
+        return array_merge(    [
             'text' => $this->label,
             "style" => $this->style,
-            "type"=>"button",
+            "type"=> "button",
             "name"=> $this->label ?? 'Default Name',
             "value"=> $this->activator ?? $this->label ?? 'default',
         ], is_null($this->buttonConfirm) ? [] : $this->buttonConfirm->toArray());
 
-        return [
-            'attachments' => json_encode([
-            [
-            "text" => $this->description ?? 'Default description',
-            "callback_id" => bin2hex(random_bytes(5)),
-            "attachment_type" => "default",
-            'actions' => [$actions]
+//        return [
+//            'attachments' => json_encode([
+//            [
+//            "text" => $this->description ?? 'Default description',
+//            "callback_id" => bin2hex(random_bytes(5)),
+//            "attachment_type" => "default",
+//            'actions' => [$actions]
 //                [
 //                [
 //                    "style" => $this->style,
@@ -75,9 +75,9 @@ class RequestButton extends Button implements Arrayable
 //                    "value"=> $this->activator ?? $this->label ?? 'default',
 //                ]
 //            ]
-            ]
-            ])
-        ];
+//            ]
+//            ])
+//        ];
     }
     /**
      * Get name.

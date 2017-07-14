@@ -39,7 +39,7 @@ class SlackCommandHandler extends CommandHandler
 //                "callback_id" => $command->getTemplate()->getName(),
 //                ],
 //                $this->driver->getTemplateCompiler()->compile($command->getTemplate()))]);
-            $payload = array_merge($payload, $this->driver->getTemplateCompiler()->compile($command->getTemplate()));
+            $payload = array_merge($payload, $this->driver->getTemplateCompiler()->compile($command->getTemplate(), ['text' => $command->getText()]));
         }
 
         $payload   = array_merge($payload, [
